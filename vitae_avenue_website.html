@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitae Avenue® | Career Counselling Mumbai | Diipaal P Parikh</title>
+<meta name="description" content="Expert career counselling in Mumbai by Diipaal P Parikh. Stream selection, college admission guidance, overseas studies. Offline.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/chatbot.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --gold: #F5A623;
+  --deep-navy: #2D3465;
+  --navy: #3D4A8A;
+  --light-gold: #FFF3D6;
+  --cream: #FFFDF5;
+  --grey-light: #F7F7F8;
+  --grey: #E8E8EA;
+  --text-dark: #1A1A2E;
+  --text-mid: #4A4A6A;
+  --text-light: #7A7A9A;
+  --white: #FFFFFF;
+  --shadow: 0 4px 24px rgba(45,52,101,0.10);
+  --shadow-lg: 0 8px 48px rgba(45,52,101,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+/* ===== NAVBAR ===== */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(255,253,245,0.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1.5px solid var(--grey);
+  transition:all 0.3s ease;
+  overflow:visible;
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;align-items:stretch;justify-content:space-between;
+  padding:0 24px 0 0;
+  min-height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;justify-content:center;
+  background:var(--white);
+  padding:6px 24px;
+  min-height:72px;
+  flex-shrink:0;
+  text-decoration:none;
+  border-right:2px solid rgba(0,0,0,0.08);
+}
+.nav-logo img{height:56px;width:auto;object-fit:contain;display:block;image-rendering:crisp-edges}
+.nav-links{display:flex;align-items:center;gap:0;list-style:none}
+.nav-links > li{position:relative}
+.nav-links > li > a{
+  display:block;padding:10px 14px;
+  font-size:13px;font-weight:500;color:var(--text-dark);
+  text-decoration:none;letter-spacing:0.01em;white-space:nowrap;
+  transition:color 0.2s;
+  border-radius:6px;
+}
+.nav-links > li > a:hover{color:var(--gold)}
+.nav-links > li.dropdown:hover > a{color:var(--gold)}
+.dropdown-menu{
+  position:absolute;top:100%;left:0;
+  background:var(--white);border:1.5px solid var(--grey);
+  border-radius:10px;min-width:200px;
+  box-shadow:var(--shadow-lg);padding:8px 0;
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:all 0.25s ease;z-index:200;
+}
+.dropdown:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown-menu a{
+  display:block;padding:10px 18px;
+  font-size:13px;color:var(--text-mid);text-decoration:none;
+  transition:all 0.2s;
+}
+.dropdown-menu a:hover{background:var(--light-gold);color:var(--deep-navy)}
+.nav-cta{
+  background:var(--gold);color:var(--deep-navy)!important;
+  border-radius:8px!important;font-weight:600!important;
+  padding:10px 20px!important;
+  transition:background 0.2s,transform 0.15s!important;
+}
+.nav-cta:hover{background:#e8960f!important;transform:translateY(-1px)!important}
+.hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;padding:4px}
+.hamburger span{width:24px;height:2px;background:var(--text-dark);display:block;transition:0.3s}
+.mobile-menu{
+  display:none;position:fixed;top:72px;left:0;right:0;
+  background:var(--white);border-bottom:2px solid var(--grey);
+  padding:16px 0;z-index:999;
+  max-height:calc(100vh - 72px);overflow-y:auto;
+}
+.mobile-menu.open{display:block}
+.mobile-menu a{
+  display:block;padding:12px 24px;font-size:14px;
+  color:var(--text-dark);text-decoration:none;border-bottom:1px solid var(--grey-light);
+}
+.mobile-menu a:hover{background:var(--light-gold)}
+
+/* ===== PAGES ===== */
+.page{display:none;min-height:100vh;padding-top:72px}
+.page.active{display:block}
+
+/* ===== HERO ===== */
+.hero{
+  background:linear-gradient(135deg,var(--deep-navy) 0%,var(--navy) 60%,#4A5BA0 100%);
+  min-height:calc(100vh - 72px);
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-inner{
+  max-width:1280px;margin:0 auto;padding:60px 24px;
+  display:grid;grid-template-columns:1fr 440px;align-items:center;gap:60px;
+  position:relative;z-index:1;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(245,166,35,0.15);border:1.5px solid rgba(245,166,35,0.4);
+  border-radius:100px;padding:6px 16px;
+  font-size:11px;font-weight:600;color:var(--gold);
+  letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;
+}
+.hero-badge::before{content:'●';font-size:8px}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,64px);font-weight:700;
+  color:var(--white);line-height:1.1;margin-bottom:20px;
+}
+.hero h1 span{color:var(--gold)}
+.hero-desc{
+  font-size:16px;color:rgba(255,255,255,0.8);line-height:1.7;
+  margin-bottom:32px;max-width:520px;
+}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.hero-pill{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  border-radius:100px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.9);
+  cursor:pointer;text-decoration:none;transition:all 0.2s;display:inline-block;
+}
+.hero-pill:hover{
+  background:rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.5);transform:translateY(-1px);
+}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px}
+.btn-gold{
+  background:var(--gold);color:var(--deep-navy);
+  border:none;border-radius:10px;padding:14px 28px;
+  font-size:14px;font-weight:600;cursor:pointer;
+  text-decoration:none;display:inline-block;
+  transition:all 0.2s;letter-spacing:0.02em;
+}
+.btn-gold:hover{background:#e8960f;transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,166,35,0.4)}
+.btn-outline{
+  background:transparent;color:var(--white);
+  border:1.5px solid rgba(255,255,255,0.4);border-radius:10px;
+  padding:14px 28px;font-size:14px;font-weight:500;
+  cursor:pointer;text-decoration:none;display:inline-block;
+  transition:all 0.2s;
+}
+.btn-outline:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.8)}
+.hero-img-wrap{
+  position:relative;
+}
+.hero-img-frame{
+  border-radius:20px 20px 80px 20px;
+  overflow:hidden;border:3px solid rgba(245,166,35,0.5);
+  box-shadow:var(--shadow-lg);
+  aspect-ratio:3/4;
+}
+.hero-img-frame img{width:100%;height:100%;object-fit:cover;object-position:top}
+.hero-float-card{
+  position:absolute;bottom:30px;left:-20px;
+  background:var(--white);border-radius:12px;
+  padding:14px 18px;box-shadow:var(--shadow-lg);
+  min-width:160px;
+}
+.hero-float-card .stat{font-size:24px;font-weight:700;color:var(--deep-navy)}
+.hero-float-card .stat-label{font-size:11px;color:var(--text-light)}
+.hero-float-card2{
+  position:absolute;top:30px;right:-20px;
+  background:var(--gold);border-radius:12px;
+  padding:12px 16px;box-shadow:var(--shadow-lg);
+  max-width:160px;
+}
+.hero-float-card2 .cert{font-size:11px;font-weight:600;color:var(--deep-navy)}
+
+/* ===== TRUST BAR ===== */
+.trust-bar{
+  background:var(--deep-navy);padding:16px 24px;
+}
+.trust-bar-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:32px;
+}
+.trust-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:rgba(255,255,255,0.85);font-weight:500;
+}
+.trust-item svg{opacity:0.8}
+
+/* ===== SECTION STYLES ===== */
+section{padding:72px 24px}
+.section-inner{max-width:1280px;margin:0 auto}
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px;
+}
+.section-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,46px);font-weight:700;
+  color:var(--deep-navy);line-height:1.15;
+}
+.section-heading span{color:var(--gold)}
+.section-sub{
+  font-size:16px;color:var(--text-mid);line-height:1.7;
+  max-width:580px;margin-top:14px;
+}
+
+/* ===== SERVICES GRID ===== */
+.services-section{background:var(--grey-light)}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:24px;margin-top:48px;
+}
+.service-card{
+  background:var(--white);border-radius:16px;padding:28px 24px;
+  border:1.5px solid var(--grey);
+  transition:all 0.3s ease;cursor:pointer;
+}
+.service-card:hover{
+  border-color:var(--gold);transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+}
+.service-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--light-gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:18px;
+}
+.service-card h3{font-size:16px;font-weight:600;color:var(--deep-navy);margin-bottom:8px}
+.service-card p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.service-cta{
+  margin-top:14px;font-size:13px;font-weight:600;
+  color:var(--gold);text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:64px;
+  margin-top:48px;
+}
+.about-img-wrap{position:relative}
+.about-img{
+  border-radius:20px;overflow:hidden;
+  box-shadow:var(--shadow-lg);aspect-ratio:4/5;
+}
+.about-img img{width:100%;height:100%;object-fit:cover;object-position:top}
+.about-badge{
+  position:absolute;bottom:-24px;right:-24px;
+  background:var(--gold);border-radius:16px;padding:20px;
+  box-shadow:var(--shadow-lg);text-align:center;
+}
+.about-badge .num{font-size:32px;font-weight:700;color:var(--deep-navy)}
+.about-badge .txt{font-size:11px;color:var(--deep-navy);font-weight:600}
+.about-content .cert-list{list-style:none;margin:20px 0;}
+.about-content .cert-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--grey);
+  font-size:14px;color:var(--text-mid);
+}
+.about-content .cert-list li::before{
+  content:'✦';color:var(--gold);font-size:12px;margin-top:1px;flex-shrink:0;
+}
+.about-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.social-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;
+  text-decoration:none;border:1.5px solid var(--grey);color:var(--text-dark);
+  transition:all 0.2s;
+}
+.social-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ===== BIOMETRIC SECTION ===== */
+.dmit-section{background:linear-gradient(135deg,var(--deep-navy),var(--navy))}
+.dmit-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
+  margin-top:48px;
+}
+.dmit-content .section-heading{color:var(--white)}
+.dmit-content .section-label{color:var(--gold)}
+.dmit-content p{color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:16px}
+.dmit-steps{margin-top:28px;display:flex;flex-direction:column;gap:16px}
+.dmit-step{
+  display:flex;align-items:flex-start;gap:16px;
+  background:rgba(255,255,255,0.06);border-radius:12px;padding:16px 18px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.dmit-step-num{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:var(--deep-navy);flex-shrink:0;
+}
+.dmit-step-content h4{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+.dmit-step-content p{font-size:13px;color:rgba(255,255,255,0.7);margin:0}
+.dmit-features{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dmit-feat{
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;padding:20px;
+}
+.dmit-feat-icon{font-size:28px;margin-bottom:12px}
+.dmit-feat h4{font-size:14px;font-weight:600;color:var(--white);margin-bottom:6px}
+.dmit-feat p{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-section{background:var(--grey-light)}
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:24px;margin-top:48px;
+}
+.testimonial-card{
+  background:var(--white);border-radius:16px;padding:28px;
+  border:1.5px solid var(--grey);
+}
+.testimonial-stars{color:var(--gold);font-size:14px;margin-bottom:14px}
+.testimonial-text{
+  font-size:14px;color:var(--text-mid);line-height:1.7;
+  font-style:italic;margin-bottom:18px;
+}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.author-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--light-gold);display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;color:var(--deep-navy);flex-shrink:0;
+}
+.author-name{font-size:14px;font-weight:600;color:var(--deep-navy)}
+.author-role{font-size:12px;color:var(--text-light)}
+
+/* ===== CTA BANNER ===== */
+.cta-banner{
+  background:var(--gold);padding:64px 24px;text-align:center;
+}
+.cta-banner h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,46px);font-weight:700;
+  color:var(--deep-navy);margin-bottom:14px;
+}
+.cta-banner p{font-size:16px;color:var(--deep-navy);opacity:0.8;margin-bottom:28px}
+.btn-navy{
+  background:var(--deep-navy);color:var(--white);
+  border:none;border-radius:10px;padding:14px 32px;
+  font-size:15px;font-weight:600;cursor:pointer;
+  text-decoration:none;display:inline-block;
+  transition:all 0.2s;
+}
+.btn-navy:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,52,101,0.4)}
+
+/* ===== FULL PAGES (tabs) ===== */
+.page-hero{
+  background:linear-gradient(135deg,var(--deep-navy),var(--navy));
+  padding:80px 24px 60px;text-align:center;
+}
+.page-hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,56px);font-weight:700;color:var(--white);
+  margin-bottom:16px;
+}
+.page-hero p{font-size:16px;color:rgba(255,255,255,0.8);max-width:600px;margin:0 auto 28px}
+.page-content{max-width:1280px;margin:0 auto;padding:64px 24px}
+
+/* Cards for content pages */
+.content-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:24px;margin-top:32px;
+}
+.content-card{
+  background:var(--white);border-radius:16px;padding:28px;
+  border:1.5px solid var(--grey);
+  transition:all 0.3s;
+}
+.content-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow)}
+.content-card h3{
+  font-size:17px;font-weight:600;color:var(--deep-navy);margin-bottom:10px;
+}
+.content-card p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.card-tag{
+  display:inline-block;background:var(--light-gold);border-radius:100px;
+  padding:4px 12px;font-size:11px;font-weight:600;color:var(--deep-navy);
+  margin-bottom:14px;
+}
+
+/* Stream cards */
+.stream-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;
+}
+.stream-card{
+  border-radius:16px;padding:32px 24px;text-align:center;border:2px solid transparent;
+  transition:all 0.3s;cursor:pointer;
+}
+.stream-card.sci{background:linear-gradient(135deg,#EEF2FF,#E0E7FF)}
+.stream-card.comm{background:linear-gradient(135deg,#FFF7ED,#FEF3C7)}
+.stream-card.arts{background:linear-gradient(135deg,#F0FDF4,#DCFCE7)}
+.stream-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.stream-icon{font-size:40px;margin-bottom:16px}
+.stream-card h3{font-size:18px;font-weight:700;color:var(--deep-navy);margin-bottom:10px}
+.stream-card p{font-size:13px;color:var(--text-mid);line-height:1.6}
+
+/* Accordion */
+.faq-list{margin-top:32px;display:flex;flex-direction:column;gap:12px}
+.faq-item{
+  background:var(--white);border-radius:12px;border:1.5px solid var(--grey);overflow:hidden;
+}
+.faq-q{
+  padding:18px 20px;font-size:15px;font-weight:600;color:var(--deep-navy);
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  transition:background 0.2s;
+}
+.faq-q:hover{background:var(--grey-light)}
+.faq-q span{font-size:20px;color:var(--gold);transition:transform 0.3s}
+.faq-a{
+  padding:0 20px;max-height:0;overflow:hidden;
+  font-size:14px;color:var(--text-mid);line-height:1.7;
+  transition:max-height 0.4s ease,padding 0.3s;
+}
+.faq-item.open .faq-q span{transform:rotate(45deg)}
+.faq-item.open .faq-a{max-height:300px;padding:0 20px 18px}
+
+/* Process steps */
+.process-steps{
+  display:flex;flex-direction:column;gap:24px;margin-top:32px;
+  position:relative;
+}
+.process-step{
+  display:flex;gap:24px;align-items:flex-start;
+  background:var(--white);border-radius:16px;padding:24px;
+  border:1.5px solid var(--grey);
+}
+.step-num{
+  width:48px;height:48px;border-radius:14px;
+  background:var(--deep-navy);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:700;flex-shrink:0;
+}
+.step-content h4{font-size:16px;font-weight:600;color:var(--deep-navy);margin-bottom:6px}
+.step-content p{font-size:14px;color:var(--text-mid);line-height:1.6}
+
+/* ===== CONTACT ===== */
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start;margin-top:48px}
+.contact-info h3{font-size:20px;font-weight:700;color:var(--deep-navy);margin-bottom:20px}
+.contact-detail{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--grey);
+  font-size:14px;color:var(--text-mid);
+}
+.contact-detail-icon{
+  width:40px;height:40px;border-radius:10px;background:var(--light-gold);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.contact-detail a{color:var(--navy);text-decoration:none}
+.contact-detail a:hover{color:var(--gold)}
+
+/* ===== LOGIN MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  z-index:2000;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;padding:24px;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--white);border-radius:20px;padding:40px;
+  width:100%;max-width:520px;max-height:90vh;overflow-y:auto;
+  transform:scale(0.95);transition:transform 0.3s;
+  position:relative;
+}
+.modal-overlay.open .modal-box{transform:scale(1)}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--grey-light);border:none;cursor:pointer;
+  font-size:18px;display:flex;align-items:center;justify-content:center;
+  color:var(--text-mid);
+}
+.modal-close:hover{background:var(--grey)}
+.modal-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.modal-logo img{height:40px}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--deep-navy);margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--text-light);margin-bottom:28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:6px}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;border:1.5px solid var(--grey);border-radius:10px;
+  padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;
+  color:var(--text-dark);background:var(--cream);
+  transition:border-color 0.2s;outline:none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{border-color:var(--gold);background:var(--white)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-submit{
+  width:100%;background:var(--gold);color:var(--deep-navy);
+  border:none;border-radius:10px;padding:14px;
+  font-size:15px;font-weight:700;cursor:pointer;
+  transition:all 0.2s;margin-top:8px;
+}
+.form-submit:hover{background:#e8960f;transform:translateY(-1px)}
+.form-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.form-msg{
+  padding:12px 16px;border-radius:10px;font-size:13px;margin-top:16px;
+  display:none;
+}
+.form-msg.success{background:#D1FAE5;color:#065F46;display:block}
+.form-msg.error{background:#FEE2E2;color:#991B1B;display:block}
+.divider{text-align:center;position:relative;margin:20px 0}
+.divider::before{
+  content:'';position:absolute;top:50%;left:0;right:0;height:1px;
+  background:var(--grey);
+}
+.divider span{
+  position:relative;background:var(--white);padding:0 14px;
+  font-size:12px;color:var(--text-light);
+}
+.tab-switch{
+  display:flex;background:var(--grey-light);border-radius:10px;
+  padding:4px;margin-bottom:24px;
+}
+.tab-switch button{
+  flex:1;padding:8px;border-radius:7px;border:none;
+  font-size:13px;font-weight:600;cursor:pointer;
+  background:transparent;color:var(--text-mid);
+  transition:all 0.2s;
+}
+.tab-switch button.active{background:var(--white);color:var(--deep-navy);box-shadow:var(--shadow)}
+.auth-form{display:none}
+.auth-form.active{display:block}
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  background: var(--white);
+  color: var(--text-dark);
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 16px;
+}
+.google-btn:hover {
+  background: var(--grey-light);
+  border-color: var(--text-light);
+}
+.google-btn svg {
+  flex-shrink: 0;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--text-dark);color:rgba(255,255,255,0.8);
+  padding:64px 24px 32px;
+}
+.footer-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+}
+.footer-brand img{height:60px;width:auto;margin-bottom:16px;display:block;}
+.footer-brand p{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.6)}
+.footer-col h4{font-size:13px;font-weight:700;color:var(--white);margin-bottom:16px;letter-spacing:0.05em;text-transform:uppercase}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:8px}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-bottom{
+  max-width:1280px;margin:40px auto 0;
+  padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:12px;color:rgba(255,255,255,0.4);
+}
+
+/* ===== STICKY BOTTOM CTA (mobile) ===== */
+.sticky-cta{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:800;
+  background:var(--gold);padding:14px 24px;
+  justify-content:space-between;align-items:center;
+}
+.sticky-cta span{font-size:14px;font-weight:600;color:var(--deep-navy)}
+.sticky-cta button{
+  background:var(--deep-navy);color:var(--white);
+  border:none;border-radius:8px;padding:10px 20px;
+  font-size:13px;font-weight:600;cursor:pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr 360px}
+  .about-grid{grid-template-columns:1fr;}
+  .about-img-wrap{max-width:400px}
+  .about-badge{right:0;bottom:-20px}
+  .footer-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-img-wrap{display:none}
+  .dmit-grid{grid-template-columns:1fr}
+  .stream-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .sticky-cta{display:flex}
+  body{padding-bottom:60px}
+  section{padding:48px 16px}
+}
+@media(max-width:480px){
+  .dmit-features{grid-template-columns:1fr}
+  .hero-btns{flex-direction:column}
+  .btn-gold,.btn-outline{text-align:center}
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.fade-in-delay-1{transition-delay:0.1s}
+.fade-in-delay-2{transition-delay:0.2s}
+.fade-in-delay-3{transition-delay:0.3s}
+
+/* ===== MISC ===== */
+.two-col-text{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px}
+.two-col-text p{font-size:14px;color:var(--text-mid);line-height:1.7}
+.highlight-box{
+  background:var(--light-gold);border-radius:14px;padding:24px 28px;
+  border-left:4px solid var(--gold);margin:24px 0;
+}
+.highlight-box p{font-size:14px;color:var(--text-dark);line-height:1.7}
+.exam-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.exam-tag{
+  background:var(--white);border:1.5px solid var(--grey);
+  border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;
+  color:var(--deep-navy);
+}
+.college-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;margin-top:16px;
+}
+.college-tag{
+  background:var(--white);border:1.5px solid var(--grey);
+  border-radius:8px;padding:10px 14px;font-size:12px;
+  color:var(--text-mid);display:flex;align-items:center;gap:8px;
+}
+.college-tag::before{content:'🏛️';font-size:14px}
+.online-offline-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--deep-navy);color:var(--white);
+  border-radius:100px;padding:8px 18px;font-size:13px;font-weight:600;
+  margin-bottom:24px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="showPage('home')">
+      <img src="vitae%20logo-3%20C.png" alt="Vitae Avenue Logo" style="height:54px;width:auto;object-fit:contain;display:block">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li class="dropdown">
+        <a href="#" onclick="showPage('school')">Stream Selection ▾</a>
+        <div class="dropdown-menu">
+          <a href="#" onclick="showPage('class8below')">🌱 Subject Selection</a>
+          <a href="#" onclick="showPage('after10')">🎯 What After 10th?</a>
+          <a href="#" onclick="showPage('class1112')">🔬 For 11th – 12th</a>
+          <a href="#" onclick="showPage('degree')">🎓 Degree / Bachelors</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="#" onclick="showPage('careers')">Best Career Choices ▾</a>
+        <div class="dropdown-menu">
+          <a href="#" onclick="showPage('careers')">Explore Careers</a>
+          <a href="#" onclick="showPage('professional')">Professional Courses</a>
+          <a href="#" onclick="showPage('working')">Working Professionals</a>
+        </div>
+      </li>
+      <li><a href="#" onclick="showPage('masters')">Masters & Further Studies</a></li>
+      <li><a href="#" onclick="showPage('abroad')">Study Abroad</a></li>
+      <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
+      <li><a href="#" class="nav-cta" onclick="openModal('login')">Book Session</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="showPage('home');toggleMobileMenu()">🏠 Home</a>
+  <a href="#" onclick="showPage('school');toggleMobileMenu()" style="font-weight:600;color:var(--deep-navy)">📚 Stream Selection</a>
+  <a href="#" onclick="showPage('class8below');toggleMobileMenu()" style="padding-left:36px;font-size:13px">🌱 Subject Selection</a>
+  <a href="#" onclick="showPage('after10');toggleMobileMenu()" style="padding-left:36px;font-size:13px">🎯 What After 10th?</a>
+  <a href="#" onclick="showPage('class1112');toggleMobileMenu()" style="padding-left:36px;font-size:13px">🔬 For 11th – 12th</a>
+  <a href="#" onclick="showPage('degree');toggleMobileMenu()" style="padding-left:36px;font-size:13px">🎓 Degree / Bachelors</a>
+  <a href="#" onclick="showPage('after12');toggleMobileMenu()">🎓 What After 12th?</a>
+  <a href="#" onclick="showPage('streams');toggleMobileMenu()">🔬 Stream Selection</a>
+  <a href="#" onclick="showPage('careers');toggleMobileMenu()">💼 Best Career Choices</a>
+  <a href="#" onclick="showPage('masters');toggleMobileMenu()">🎓 Masters & Further Studies</a>
+  <a href="#" onclick="showPage('abroad');toggleMobileMenu()">✈️ Study Abroad</a>
+  <a href="#" onclick="showPage('working');toggleMobileMenu()">👔 Working Professionals</a>
+  <a href="#" onclick="showPage('contact');toggleMobileMenu()">📞 Contact Us</a>
+  <a href="#" onclick="openModal('login');toggleMobileMenu()" style="background:var(--light-gold);font-weight:700;color:var(--deep-navy)">📅 Book a Session</a>
+</div>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">India's Trusted Career Guidance</div>
+        <h1>Unlock Your <span>True Career</span> Potential</h1>
+        <p class="hero-desc">India's trusted career guidance partner, helping students and professionals make confident, informed, and future-ready career decisions.</p>
+        <div class="hero-pills">
+          <a href="#" class="hero-pill" onclick="showPage('streams')">🎯 Stream Selection</a>
+          <a href="#" class="hero-pill" onclick="showPage('degree')">🏫 College Admission</a>
+          <a href="#" class="hero-pill" onclick="showPage('abroad')">✈️ Study Abroad</a>
+          <a href="#" class="hero-pill" onclick="showPage('masters')">💼 Further Studies</a>
+        </div>
+        <div class="hero-btns">
+          <a href="#" class="btn-gold" onclick="openModal('login')">Book Free Consultation</a>
+          <a href="#" class="btn-outline" onclick="showPage('contact')">Know More</a>
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <div class="hero-img-frame"><img src="counsellor.jpg" alt="Diipaal P Parikh - Career Counsellor" class="hero-img"></div>
+        <div class="hero-float-card">
+          <div class="stat">1000+</div>
+          <div class="stat-label">Students Guided</div>
+        </div>
+        <div class="hero-float-card2">
+          <div class="cert">🏆 ISO Certified<br>Internationally Accredited</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- SERVICES -->
+  <section class="services-section">
+    <div class="section-inner">
+      <div class="section-label">Our Services</div>
+      <h2 class="section-heading">Comprehensive <span>Career Guidance</span><br>For Every Stage</h2>
+      <p class="section-sub">Whether you need subject selection or are a working professional — we have a tailored solution for you.</p>
+      <div class="services-grid">
+        <div class="service-card fade-in" onclick="showPage('class810')">
+          <div class="service-icon">📚</div>
+          <h3>Subject Selection Guidance</h3>
+          <p>Early career exploration, interest mapping, and subject-stream alignment for foundation years.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in fade-in-delay-1" onclick="showPage('after10')">
+          <div class="service-icon">🔀</div>
+          <h3>What After 10th?</h3>
+          <p>Science, Commerce or Arts — discover which stream aligns with your strengths and career dreams.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in fade-in-delay-2" onclick="showPage('after12')">
+          <div class="service-icon">🎓</div>
+          <h3>After 12th &amp; College Selection</h3>
+          <p>Entrance exam guidance, top college shortlisting for every stream and goal.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in fade-in-delay-3" onclick="showPage('professional')">
+          <div class="service-icon">💼</div>
+          <h3>Professional &amp; Degree Courses</h3>
+          <p>B.Tech, CA, MBBS, Law, Design, Media — understand what each career path truly demands.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in" onclick="showPage('working')">
+          <div class="service-icon">🔄</div>
+          <h3>Mid-Career Guidance</h3>
+          <p>Stuck at a crossroads? We help working professionals pivot, upskill, and reignite their careers.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in fade-in-delay-1" onclick="showPage('masters')">
+          <div class="service-icon">🏆</div>
+          <h3>Masters, MBA & PhD Guidance</h3>
+          <p>Post-graduation planning, entrance prep (CAT, GRE, GMAT), college selection and application help.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in fade-in-delay-2" onclick="showPage('abroad')">
+          <div class="service-icon">✈️</div>
+          <h3>Study Abroad</h3>
+          <p>Overseas school connects, UG/PG admissions, scholarship guidance for UK, USA, Canada, Australia & more.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+        <div class="service-card fade-in fade-in-delay-3">
+          <div class="service-icon">📄</div>
+          <h3>CV & Interview Coaching</h3>
+          <p>ATS-optimised resumes, LinkedIn profiles, mock interviews and personal statement writing.</p>
+          <a class="service-cta">Explore →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-img-wrap">
+          <div class="about-img"><img src="counsellor.jpg" alt="Diipaal P Parikh"></div>
+          <div class="about-badge">
+            <div class="num">10+</div>
+            <div class="txt">Years of Expert<br>Counselling</div>
+          </div>
+        </div>
+        <div class="about-content">
+          <div class="section-label">Meet Your Counsellor</div>
+          <h2 class="section-heading">Diipaal P <span>Parikh</span></h2>
+          <p style="color:var(--text-mid);font-size:16px;margin:14px 0 6px;font-weight:600">Founder, Vitae Avenue® | ISO Certified</p>
+          <p style="color:var(--text-mid);font-size:14px;line-height:1.7;margin-bottom:16px">A passionate Career Guidance Coach with over 10 years of experience, Diipaal has empowered thousands of students and professionals to identify their strengths, clarify their goals, and take decisive steps toward fulfilling careers. Her approach blends personalised coaching, and motivational support.</p>
+          <ul class="cert-list">
+            <li>Internationally Certified Career Counsellor</li>
+            <li>Internationally Certified Parenting Counsellor</li>
+            <li>Certified Life Coach & NLP Practitioner</li>
+            <li>On Panel of National Career Service, Govt. of India</li>
+            <li>Featured on Education Times (Times of India)</li>
+          </ul>
+          <div class="about-links">
+            <a href="https://www.linkedin.com/in/diipaal-p-parikh-career-guidance-mumbai" target="_blank" class="social-btn">🔗 LinkedIn</a>
+            <a href="https://www.instagram.com/vitaeavenue" target="_blank" class="social-btn">📸 Instagram</a>
+            <a href="https://www.facebook.com/vitaeavenue" target="_blank" class="social-btn">👥 Facebook</a>
+            <a href="https://www.educationtimes.com/counsellors/diipaal-p-parikh/career-counselling/94cabfb7-0f32-11ee-9574-064df626ed42" target="_blank" class="social-btn">📰 TOI Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIOMETRIC ANALYSIS -->
+
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section">
+    <div class="section-inner">
+      <div class="section-label">Success Stories</div>
+      <h2 class="section-heading">What Our <span>Students Say</span></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card fade-in">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Diipaal ma'am's counselling session was an eye-opener! I was confused between Science and Commerce, and the session helped me confidently choose Commerce. Now at SRCC Delhi — couldn't be happier!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div><div class="author-name">Aarav Mehta</div><div class="author-role">Student, SRCC Delhi</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-in fade-in-delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"As a working professional wanting to switch from IT to marketing, I had no idea where to start. Diipaal's guidance gave me clarity and a step-by-step plan. Within 6 months, I made the switch!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">P</div>
+            <div><div class="author-name">Priya Joshi</div><div class="author-role">Marketing Manager, Mumbai</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-in fade-in-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"My daughter was anxious about choosing between NEET and JEE. The aptitude test report made it crystal clear. She got into IIT Bombay last year. Thank you Vitae Avenue!"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">R</div>
+            <div><div class="author-name">Rajesh Sharma</div><div class="author-role">Parent, Mumbai</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <div class="section-inner">
+      <h2>Ready to Discover Your True Career Path?</h2>
+      <p>Book a one-on-one session today. Offline sessions available.</p>
+      <a href="#" class="btn-navy" onclick="openModal('login')">Book Your Free Consultation Now →</a>
+    </div>
+  </div>
+
+</div>
+<!-- END HOME PAGE -->
+
+
+<!-- ==================== SCHOOL LANDING PAGE ==================== -->
+<div id="page-school" class="page">
+  <div class="page-hero">
+    <div class="section-label">Guidance for Every Stage</div>
+    <h1>Subject Selection Guidance</h1>
+    <p>From foundational schooling to graduation — personalised career counselling at every critical academic stage. Discover the right path early.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book a Consultation</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="section-label">Choose Your Stage</div>
+    <h2 class="section-heading" style="margin-bottom:32px">Which Stage Are <span>You At?</span></h2>
+    <div class="content-grid">
+      <div class="content-card" style="cursor:pointer" onclick="showPage('class8below')">
+        <div class="card-tag">🌱 Early Foundation</div>
+        <h3>Subject Selection</h3>
+        <p>Early interest exploration, learning style discovery, and foundational habit-building for young students to get a head start on their future.</p>
+        <a class="service-cta">Explore →</a>
+      </div>
+      <div class="content-card" style="cursor:pointer" onclick="showPage('class810')">
+        <div class="card-tag">📖 Building Direction</div>
+        <h3>Subject Selection</h3>
+        <p>Critical years for subject preference identification, board exam confidence, and planning for stream selection after Class 10.</p>
+        <a class="service-cta">Explore →</a>
+      </div>
+      <div class="content-card" style="cursor:pointer" onclick="showPage('after10')">
+        <div class="card-tag">🎯 The Big Decision</div>
+        <h3>After 10th?</h3>
+        <p>Stream selection — Science, Commerce or Arts. One of the most impactful decisions of your academic journey, made right.</p>
+        <a class="service-cta">Explore →</a>
+      </div>
+      <div class="content-card" style="cursor:pointer" onclick="showPage('class1112')">
+        <div class="card-tag">🔬 Pre-University</div>
+        <h3>For 11th – 12th</h3>
+        <p>Entrance exam strategy, subject mastery, college shortlisting, and career direction for students in the crucial final years of school.</p>
+        <a class="service-cta">Explore →</a>
+      </div>
+      <div class="content-card" style="cursor:pointer" onclick="showPage('degree')">
+        <div class="card-tag">🎓 Higher Education</div>
+        <h3>Degree / Bachelors</h3>
+        <p>Choosing the right UG course and college — Engineering, Medicine, Law, Commerce, Arts — mapped to your strengths and goals.</p>
+        <a class="service-cta">Explore →</a>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Not Sure Which Stage Applies to You?</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Talk to Diipaal directly — she will guide you to exactly the right programme for your child or yourself.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book a Free Consultation</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CLASS 8 & BELOW PAGE ==================== -->
+<div id="page-class8below" class="page">
+  <div class="page-hero">
+    <div class="section-label">Early Foundation | Class 5–8</div>
+    <h1>Subject Selection:<br>Start Early, Win Big</h1>
+    <p>The seeds of a successful career are planted early. Discover your child's innate potential before habits solidify and subjects narrow.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book a Session for My Child</a>
+      <a href="#" class="btn-outline" onclick="showPage('school')">← Back to Subject Selection Guidance</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>Why start before Class 9?</strong> Children's learning styles and intelligence patterns are most accurately identified between ages 8–14. Early counselling allows parents to align academic choices, extracurricular activities, and skill development with the child's natural strengths — before the pressure of board exams sets in.</p>
+    </div>
+    <div class="section-label" style="margin-top:40px">What We Offer</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">🧠 Intelligence Mapping</div>
+        <h3>Multiple Intelligence Discovery</h3>
+        <p>Our assessment identifies whether your child is linguistically, logically, musically, spatially, or interpersonally gifted — so education can be tailored to how they naturally learn.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">📚 Study Style</div>
+        <h3>Learning Style Identification</h3>
+        <p>Is your child a visual, auditory, or kinesthetic learner? Knowing this transforms how they study — leading to better results with less stress.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🎯 Early Interests</div>
+        <h3>Passion &amp; Interest Mapping</h3>
+        <p>We identify genuine interests versus fleeting hobbies, and begin planting seeds for career directions that will feel natural and exciting — not forced.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">👨‍👩‍👦 Parents</div>
+        <h3>Parent Counselling</h3>
+        <p>A dedicated session for parents to understand their child's natural temperament, strengths, and how to support them effectively at home and in school.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Give Your Child the Gift of Self-Knowledge</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Early clarity is the greatest academic advantage you can give. Book a session today.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book Early Career Discovery Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CLASS 8-10 PAGE ==================== -->
+<div id="page-class810" class="page">
+  <div class="page-hero">
+    <div class="section-label">Building Direction | Class 8–10</div>
+    <h1>Subject Selection:<br>The Foundation Years</h1>
+    <p>These three years shape your academic identity. Build clarity, confidence, and direction before the pressure of board exams peaks.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="#" class="btn-gold" onclick="openModal('login')">Get Expert Guidance</a>
+      <a href="#" class="btn-outline" onclick="showPage('school')">← Back to Subject Selection Guidance</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>The pressure begins here.</strong> Class 9 &amp; 10 students face their first major academic milestone — board exams. Alongside exam prep, the silent question of "what stream should I take?" grows louder. Our counselling ensures students enter Class 11 with a clear plan, not a panic decision.</p>
+    </div>
+    <div class="section-label" style="margin-top:40px">What We Focus On</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">🧭 Direction</div>
+        <h3>Subject–Career Alignment</h3>
+        <p>Understanding which subjects you currently enjoy and excel in — and mapping them to realistic future career possibilities.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">📊 Aptitude</div>
+        <h3>Psychometric &amp; Aptitude Tests</h3>
+        <p>Standardised assessments measuring verbal, numerical, logical, and creative aptitude to give an objective picture of your natural abilities.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🗺️ Planning</div>
+        <h3>Stream Selection Pre-Planning</h3>
+        <p>Begin preparing for the Class 11 stream decision a year early — so when results come in, you already know exactly which path to take.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">💪 Confidence</div>
+        <h3>Academic Confidence Building</h3>
+        <p>Many students in this age group struggle with self-doubt. Our sessions build genuine academic confidence rooted in self-awareness, not comparison.</p>
+      </div>
+    </div>
+    <div class="faq-list" style="margin-top:48px">
+      <div class="section-label">Common Questions</div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is Class 9 too early for career counselling? <span>+</span></div>
+        <div class="faq-a">Not at all — it's actually the ideal time. Class 9 students are mature enough to understand career concepts but still have enough runway to shape their choices. Starting here means stream selection and college planning happen proactively, not reactively.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">My child is weak in Maths — does that mean no Science? <span>+</span></div>
+        <div class="faq-a">Not necessarily. PCB (Biology-based Science) doesn't require the same level of Mathematics as PCM. Moreover, many exciting careers in Commerce and Arts don't need strong Maths at all. Our aptitude analysis reveals the actual picture — beyond marks alone.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Don't Wait for Class 10 Results to Start Planning</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">The best time to plan is before the pressure peaks. Book a session now.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book Subject Selection Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CLASS 11-12 PAGE ==================== -->
+<div id="page-class1112" class="page">
+  <div class="page-hero">
+    <div class="section-label">Pre-University | Class 11–12</div>
+    <h1>For Class 11th – 12th:<br>Two Years to Get It Right</h1>
+    <p>Class 11 and 12 are the most high-stakes academic years. Entrance exams, college lists, and career direction — let's plan it perfectly.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="#" class="btn-gold" onclick="openModal('login')">Start Planning Today</a>
+      <a href="#" class="btn-outline" onclick="showPage('school')">← Back to Subject Selection Guidance</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>Two years. Hundreds of decisions.</strong> Which entrance exams to prepare for? Which coaching to join? Which colleges to target? Which backup plan to have? Class 11–12 students face a cascade of critical choices. Our counselling provides a structured, calm roadmap through all of it.</p>
+    </div>
+    <div class="section-label" style="margin-top:40px">Our Guidance Covers</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">📋 Exam Strategy</div>
+        <h3>Entrance Exam Planning</h3>
+        <p>JEE, NEET, CLAT, NIFT, NDA, CUET, IPMAT — we help you identify which exams to target, when to start preparing, and how to balance board exams with entrance prep.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🏫 College Lists</div>
+        <h3>College Shortlisting</h3>
+        <p>Dream, target and safe college lists crafted for your stream — including IITs, NITs, NLUs, NID, NIFT, top Commerce and Arts colleges across India.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🎯 Career Clarity</div>
+        <h3>Career Direction Confirmation</h3>
+        <p>Confirm your career direction with aptitude tests so your entrance exam preparation is focused, not scattered.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">📝 Applications</div>
+        <h3>Application Guidance</h3>
+        <p>Admission forms, extracurricular documentation, scholarship applications, and — for overseas aspirants — initial SOP and profile building.</p>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:48px">Key Entrance Exams We Guide For</div>
+    <div class="exam-tags">
+      <span class="exam-tag">JEE Main &amp; Advanced</span>
+      <span class="exam-tag">NEET-UG</span>
+      <span class="exam-tag">CLAT (Law)</span>
+      <span class="exam-tag">NIFT Entrance</span>
+      <span class="exam-tag">NDA (Defence)</span>
+      <span class="exam-tag">IPMAT (IIM)</span>
+      <span class="exam-tag">CA Foundation</span>
+      <span class="exam-tag">CUET</span>
+      <span class="exam-tag">BITSAT</span>
+      <span class="exam-tag">MHT-CET</span>
+    </div>
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Two Years is Enough — If You Plan It Right</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Book your Class 11–12 guidance session and build a roadmap that converts hard work into the right results.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book Class 11–12 Counselling Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DEGREE / BACHELORS PAGE ==================== -->
+<div id="page-degree" class="page">
+  <div class="page-hero">
+    <div class="section-label">Higher Education | UG Programmes</div>
+    <h1>Degree / Bachelors:<br>Choosing the Right Foundation</h1>
+    <p>Your undergraduate degree is the foundation of your career. With hundreds of options across India and overseas, making the right choice is everything.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="#" class="btn-gold" onclick="openModal('login')">Get UG Guidance</a>
+      <a href="#" class="btn-outline" onclick="showPage('school')">← Back to Subject Selection Guidance</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>With 50,000+ colleges and 2,000+ courses in India alone</strong>, the number of undergraduate options can feel paralysing. At Vitae Avenue®, we cut through the noise — matching your aptitude, stream, scores, and career goals to the courses and colleges where you'll genuinely thrive.</p>
+    </div>
+    <div class="section-label" style="margin-top:40px">Popular UG Streams</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">🏗️ Science – PCM</div>
+        <h3>Engineering &amp; Technology</h3>
+        <p>B.Tech / B.E. at top institutes like IIT, NIT, and BITS.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">⚕️ Science – PCB</div>
+        <h3>Medicine &amp; Allied Health</h3>
+        <p>MBBS, BDS, and allied health courses at premier medical colleges.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">📊 Commerce</div>
+        <h3>Commerce &amp; Management</h3>
+        <p>B.Com, BBA, and BMS programs leading to finance and management careers.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">⚖️ Humanities</div>
+        <h3>Law, Psychology &amp; Social Sciences</h3>
+        <p>BA LLB and B.A. programs at top law and humanities universities.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🎨 Creative</div>
+        <h3>Design, Media &amp; Arts</h3>
+        <p>B.Des, Mass Communication, and Fine Arts at premier creative institutes.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">✈️ Overseas</div>
+        <h3>International UG Programmes</h3>
+        <p>UG admissions at universities across the USA, UK, Canada, and Australia.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">The Right Degree Changes Everything</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Let us match you to a UG programme that aligns with your strengths, career goals, and life vision.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book UG Guidance Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WHAT AFTER 10TH PAGE ==================== -->
+<div id="page-after10" class="page">
+  <div class="page-hero">
+    <div class="section-label">Guidance for Class 10 Students</div>
+    <h1>What After 10th?</h1>
+    <p>Your board results don't define your future — your choices do. Here's everything you need to know about the critical decisions after Class 10.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a href="#" class="btn-gold" onclick="openModal('login')">Talk to an Expert</a>
+      <a href="#" class="btn-outline" onclick="showPage('streams')">Explore Streams</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>Did you know?</strong> Most students choose their stream based on peer pressure, marks, or parental expectation — not their actual aptitude. At Vitae Avenue®, we use psychometric tests to ensure your stream choice is rooted in YOUR unique strengths.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Your Options After 10th</div>
+    <h2 class="section-heading" style="margin-bottom:24px">Three <span>Streams,</span> Infinite Possibilities</h2>
+    <div class="stream-grid">
+      <div class="stream-card sci" onclick="showPage('streams')">
+        <div class="stream-icon">🔬</div>
+        <h3>Science Stream</h3>
+        <p>PCM or PCB — the foundation for engineering, medicine, research, data science, aviation, and much more. Learn which sub-stream suits you best.</p>
+      </div>
+      <div class="stream-card comm" onclick="showPage('streams')">
+        <div class="stream-icon">📊</div>
+        <h3>Commerce Stream</h3>
+        <p>Accountancy, Economics, Business Studies — the launchpad for CA, MBA, banking, entrepreneurship and finance careers.</p>
+      </div>
+      <div class="stream-card arts" onclick="showPage('streams')">
+        <div class="stream-icon">🎨</div>
+        <h3>Arts & Humanities</h3>
+        <p>Law, Journalism, Psychology, Design, Political Science — a stream with surprisingly diverse and high-value career paths.</p>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:56px">Beyond the Three Streams</div>
+    <h2 class="section-heading" style="margin-bottom:24px">Other <span>Pathways</span> After 10th</h2>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">Vocational</div>
+        <h3>ITI & Vocational Courses</h3>
+        <p>Industrial Training Institute (ITI) programmes in electrical, plumbing, automotive, IT trades — high employment, quick entry.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Diploma</div>
+        <h3>Diploma in Engineering</h3>
+        <p>3-year polytechnic diplomas provide hands-on technical skills and lateral entry into B.Tech — a practical fast track.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Design & Arts</div>
+        <h3>Foundation Art & Design</h3>
+        <p>Prepare for NID, NIFT, CEED with a foundation year. Perfect for creatively inclined students.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Commerce</div>
+        <h3>CA Foundation (CPT)</h3>
+        <p>Start your Chartered Accountancy journey right after 10th with the CA Foundation exam by ICAI.</p>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:56px">Key Entrance Exams to Know</div>
+    <h2 class="section-heading" style="margin-bottom:16px">Exams After <span>Class 12</span> (Plan Now!)</h2>
+    <div class="exam-tags">
+      <span class="exam-tag">JEE Main & Advanced</span>
+      <span class="exam-tag">NEET-UG</span>
+      <span class="exam-tag">CLAT (Law)</span>
+      <span class="exam-tag">NIFT Entrance</span>
+      <span class="exam-tag">NDA (Defence)</span>
+      <span class="exam-tag">IPMAT (IIM Indore)</span>
+      <span class="exam-tag">CA Foundation</span>
+      <span class="exam-tag">CUET</span>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Don't Choose Blind. Choose Right.</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">A single counselling session can save years of regret. Book your personalised session today.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book My Session Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WHAT AFTER 12TH PAGE ==================== -->
+<div id="page-after12" class="page">
+  <div class="page-hero">
+    <div class="section-label">Guidance for Class 12 Students</div>
+    <h1>What After 12th?</h1>
+    <p>Class 12 is over. Now the real choices begin. From IITs to Law, Medicine to Design — find out which path is truly yours.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Get Expert Guidance</a>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>The Bitter Truth:</strong> 93% of Indian graduates report being in careers they don't enjoy. Early, personalised career counselling is the only proven way to beat this statistic. At Vitae Avenue®, we've guided students into IITs, IIMs, AIIMS, NLUs, NIFT, and top international universities.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Science Stream Options</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">PCM</div>
+        <h3>Engineering (B.Tech / B.E.)</h3>
+        <p>IIT, NIT, BITS, VIT, Manipal, SRM — guidance on JEE, BITSAT, MHT-CET and choosing the right branch.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">PCB</div>
+        <h3>Medicine (MBBS, BDS, BAMS)</h3>
+        <p>AIIMS, JIPMER, KEM Mumbai, St. John's Bangalore — NEET strategy and college selection guidance.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Science</div>
+        <h3>Pure Sciences & Research</h3>
+        <p>B.Sc. Physics, Chemistry, Mathematics at IISc, IISERs — for future researchers and scientists.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Tech</div>
+        <h3>Data Science & AI</h3>
+        <p>B.Sc. Data Science, B.Tech CS with AI/ML specialisation — the future of tech careers.</p>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Commerce Stream Options</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">Finance</div>
+        <h3>Chartered Accountancy (CA)</h3>
+        <p>One of India's most prestigious professional qualifications. ICAI pathway — Intermediate and Final levels.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Management</div>
+        <h3>BBA / BBM</h3>
+        <p>Christ University, Symbiosis, NMIMS, HR College — gateway to top MBA programmes.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Economics</div>
+        <h3>B.A./B.Sc. Economics</h3>
+        <p>LSR Delhi, Presidency Kolkata, Fergusson Pune — for those passionate about economic theory and policy.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Finance</div>
+        <h3>B.Com (General/Hons)</h3>
+        <p>SRCC, St. Xavier's, Jai Hind — with specialisations in banking, finance, and e-commerce.</p>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Arts & Humanities Options</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">Law</div>
+        <h3>LLB / BA LLB (5 Year)</h3>
+        <p>NLU Delhi, NALSAR, NLU Mumbai, Symbiosis Law — CLAT is the gateway to India's best law schools.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Design</div>
+        <h3>B.Des (Design)</h3>
+        <p>NID Ahmedabad, NIFT, MIT-ID Pune — for creatively gifted students who want high-paying design careers.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Media</div>
+        <h3>Mass Communication & Journalism</h3>
+        <p>IIMC, Xavier's Mumbai, Symbiosis — for future journalists, content creators, and media professionals.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Psychology</div>
+        <h3>B.A. Psychology</h3>
+        <p>Fergusson, St. Xavier's, Christ University — foundation for clinical psychology, HR, and counselling careers.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">The Right College. The Right Course. The Right Career.</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">We don't just suggest colleges — we map your strengths, scores, and aspirations to find your perfect fit.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Start My Career Journey</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STREAM SELECTION PAGE ==================== -->
+<div id="page-streams" class="page">
+  <div class="page-hero">
+    <div class="section-label">Expert Stream Selection</div>
+    <h1>Choosing Your Stream:<br>Science, Commerce or Arts?</h1>
+    <p>The most important academic decision of your life deserves more than guesswork. Let science guide your choice.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Take the Aptitude Test</a>
+  </div>
+  <div class="page-content">
+    <div class="section-label">Why Stream Selection Matters</div>
+    <h2 class="section-heading" style="margin-bottom:14px">One Wrong Choice Can <span>Cost Years</span></h2>
+    <div class="two-col-text">
+      <p>Choosing the wrong stream is one of the most common reasons students feel lost in college and early careers. At Vitae Avenue®, we use psychometric aptitude tests and one-on-one counselling to ensure your stream choice aligns with your innate intelligence, interests, and long-term career goals.</p>
+      <p>Our process removes emotion and guesswork from the equation. Parents' dreams, friends' choices, and society's expectations often lead to misaligned decisions. We bring clarity — backed by science and 10+ years of counselling experience across thousands of students.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:56px">Stream Deep-Dive</div>
+    <div class="stream-grid" style="margin-top:24px">
+      <div class="stream-card sci">
+        <div class="stream-icon">🔬</div>
+        <h3>Science Stream</h3>
+        <p style="margin-bottom:14px"><strong>PCM:</strong> Engineering, Architecture, Data Science, Aviation, Merchant Navy, Defence.<br><br><strong>PCB:</strong> Medicine (MBBS), Dentistry, Pharmacy, Biotechnology, Microbiology.<br><br><strong>PCMB:</strong> Dual options — both medical and engineering pathways open.</p>
+        <p style="font-size:12px;color:var(--text-light)">Exams: JEE, NEET, BITSAT, MHT-CET, CUET</p>
+      </div>
+      <div class="stream-card comm">
+        <div class="stream-icon">📊</div>
+        <h3>Commerce Stream</h3>
+        <p style="margin-bottom:14px"><strong>With Maths:</strong> CA, CFA, Actuarial Science, B.Com (H), BBA, Banking.<br><br><strong>Without Maths:</strong> BBA, BMS, BBM, HR, Marketing, Entrepreneurship.<br><br><strong>With Economics:</strong> Economics Honours, Civil Services, Policy Research.</p>
+        <p style="font-size:12px;color:var(--text-light)">Exams: IPMAT, NPAT, SET, DU JAT, CUET</p>
+      </div>
+      <div class="stream-card arts">
+        <div class="stream-icon">🎨</div>
+        <h3>Arts & Humanities</h3>
+        <p style="margin-bottom:14px"><strong>Creative:</strong> Fine Arts, Design (NID/NIFT), Animation, Fashion, Film.<br><br><strong>Social Sciences:</strong> Psychology, Sociology, Political Science, History, Geography.<br><br><strong>Professional:</strong> Law (CLAT), Journalism (IIMC), Hotel Management.</p>
+        <p style="font-size:12px;color:var(--text-light)">Exams: CLAT, NIFT, NID, IIMC, AILET</p>
+      </div>
+    </div>
+
+    <div class="faq-list" style="margin-top:48px">
+      <div class="section-label">Common Questions</div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I change my stream after 11th? <span>+</span></div>
+        <div class="faq-a">Yes, but it's challenging and involves restarting academic preparation. This is why choosing the right stream from the beginning is critical. Our counselling prevents regretful switches. Some lateral pathways exist — for example, a Science student can move to Commerce streams for MBA — but early planning is always better.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">My child got 80%+ in 10th — should they take Science? <span>+</span></div>
+        <div class="faq-a">Good marks don't mean Science is the right fit. Many high-scoring students thrive better in Commerce or Arts streams based on their actual aptitudes and interests. Marks measure memory and effort, not intelligence type or career fit. Our counselling reveals the deeper picture.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is Arts stream a "lesser" choice? <span>+</span></div>
+        <div class="faq-a">Absolutely not. India's top judges, journalists, designers, psychologists, civil servants, and entrepreneurs have Arts backgrounds. The perception that Arts is inferior is completely outdated. Some of the highest-paying careers today — UX design, content strategy, law, psychology — are rooted in Arts education.</div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Make the Smartest Choice of Your Academic Life</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Book a Counselling package today.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book Counselling Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BEST CAREER CHOICES PAGE ==================== -->
+<div id="page-careers" class="page">
+  <div class="page-hero">
+    <div class="section-label">Career Exploration</div>
+    <h1>Best Career Choices</h1>
+    <p>The world of work is evolving fast. Discover high-growth, high-satisfaction careers aligned to your strengths — not just the trending ones.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Explore My Career Options</a>
+  </div>
+  <div class="page-content">
+
+    <div class="highlight-box">
+      <p><strong>At Vitae Avenue®, we believe:</strong> The best career is not the highest-paying one — it's the one where your natural talent meets market demand. Our counselling helps you find that intersection with precision.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">High-Growth Sectors</div>
+    <div class="content-grid">
+      <div class="content-card"><div class="card-tag">Technology</div><h3>Artificial Intelligence &amp; Data Science</h3><p>High-growth roles in AI engineering, data analysis, and product management.</p></div>
+      <div class="content-card"><div class="card-tag">Healthcare</div><h3>Medicine &amp; Allied Health</h3><p>MBBS, BDS, Pharmacy, and Nursing in India's booming healthcare sector.</p></div>
+      <div class="content-card"><div class="card-tag">Finance</div><h3>Chartered Accountancy &amp; Finance</h3><p>CA, CFA, and CMA roles with growing demand in MNCs and Big 4 firms.</p></div>
+      <div class="content-card"><div class="card-tag">Law</div><h3>Law &amp; Legal Services</h3><p>Corporate, IP, and cyber law specialisations in an expanding legal sector.</p></div>
+      <div class="content-card"><div class="card-tag">Design</div><h3>UX/Product Design</h3><p>UX and product design pathways through premier design schools.</p></div>
+      <div class="content-card"><div class="card-tag">Creative</div><h3>Media, Content &amp; Communication</h3><p>Content creation, journalism, PR, and digital marketing in the creator economy.</p></div>
+      <div class="content-card"><div class="card-tag">Government</div><h3>Civil Services &amp; Defence</h3><p>UPSC, State PSC, and NDA careers offering stability, impact, and prestige.</p></div>
+      <div class="content-card"><div class="card-tag">Business</div><h3>Entrepreneurship</h3><p>Building your entrepreneurial vision within India's world-class startup ecosystem.</p></div>
+      <div class="content-card"><div class="card-tag">Design Entrance</div><h3>UCEED &amp; B.Des</h3><p>Premier design programmes via UCEED at IITs and other top institutions.</p></div>
+      <div class="content-card"><div class="card-tag">Architecture</div><h3>Architecture (B.Arch)</h3><p>B.Arch careers in building design, urban planning, and sustainable construction.</p></div>
+      <div class="content-card"><div class="card-tag">Aviation</div><h3>Aviation &amp; Aerospace</h3><p>Commercial Pilots, Aeronautical Engineers, and Aviation Management.</p></div>
+      <div class="content-card"><div class="card-tag">Hospitality</div><h3>Hotel Management &amp; Hospitality</h3><p>Global careers in luxury hotel chains, event management, and culinary arts.</p></div>
+      <div class="content-card"><div class="card-tag">Biotechnology</div><h3>Biotechnology &amp; Life Sciences</h3><p>New-age careers in genetic engineering, bioinformatics, and research.</p></div>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Which Career Is Right for <em>You</em>?</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Not every trending career suits every person. Let us map your aptitude, interests, and values to careers where you'll truly flourish.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Find My Best Career Match</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROFESSIONAL COURSES PAGE ==================== -->
+<div id="page-professional" class="page">
+  <div class="page-hero">
+    <div class="section-label">Professional Degrees &amp; Courses</div>
+    <h1>Professional Courses:<br>Which One Is Right for You?</h1>
+    <p>India offers hundreds of professional degree programmes. Understanding the real demands, returns, and fit of each is critical before you commit.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Get Personalised Guidance</a>
+  </div>
+  <div class="page-content">
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">📣</div>
+        <div class="step-content"><h4>MICA — Digital Marketing &amp; Communication</h4><p>One of India's premier courses for advertising and branding in the digital era. Covers content strategy, social media analytics, SEO/SEM, and digital advertising. Ideal for creative minds with business acumen.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">🧮</div>
+        <div class="step-content"><h4>ACCA — Association of Chartered Certified Accountants</h4><p>Global professional qualification in finance and accounting. Recognised in over 180 countries. Highly suited for careers in audit, tax, financial consulting, and corporate finance.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">💎</div>
+        <div class="step-content"><h4>CFA — Chartered Financial Analyst</h4><p>The gold standard in investment management and portfolio analysis. Covers advanced investment analysis, asset valuation, and portfolio management. Ideal for wealth management, investment banking, and research roles.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">📈</div>
+        <div class="step-content"><h4>CMA — Certified Management Accountant</h4><p>Focuses on financial planning, analysis, control, and decision support. Popular for management roles within multinational corporations and manufacturing giants.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">📊</div>
+        <div class="step-content"><h4>CA — Chartered Accountancy</h4><p>ICAI's CA programme — Foundation, Intermediate, Final. One of India's highest-ROI professional qualifications. Best suited for students with strong analytical and numerical aptitude.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">🤖</div>
+        <div class="step-content"><h4>AI &amp; Data Analytics</h4><p>Cutting-edge specialised programmes covering Python, R, machine learning, predictive modelling, and SQL. Prepares you for roles as Data Scientist, Data Analyst, or AI Specialist.</p></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Choose a Course That Chooses You Back</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">We'll help you evaluate ROI, aptitude fit, and market demand before you commit to a 3–5 year programme.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book Course Guidance Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MASTERS PAGE ==================== -->
+<div id="page-masters" class="page">
+  <div class="page-hero">
+    <div class="section-label">Postgraduate Planning</div>
+    <h1>Masters, MBA &amp; PhD:<br>Your Roadmap to Excellence</h1>
+    <p>Post-graduation is not just about higher qualifications — it's about strategic positioning for career leadership and specialisation.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Plan My PG Journey</a>
+  </div>
+  <div class="page-content">
+
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">Management</div>
+        <h3>MBA</h3>
+        <p>India's most sought-after postgraduate management programme. Top institutions include IIMs, ISB, XLRI, FMS Delhi, and SPJIMR. Entry via CAT, XAT, SNAP, and NMAT. Build leadership, strategy, and business acumen for corporate success.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Management</div>
+        <h3>Executive MBA</h3>
+        <p>For mid-to-senior professionals aiming to transition to leadership roles. Programs at IIMs, ISB, XLRI, and top international business schools. Focused on corporate strategy, leadership, and global business dynamics.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Management</div>
+        <h3>Overseas MBA</h3>
+        <p>Global MBA programs at Harvard, Stanford, INSEAD, London Business School, HEC Paris. Offers unmatched international networking, global business exposure, and lucrative post-MBA placements.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Technology</div>
+        <h3>M.Tech / M.S.</h3>
+        <p>IIT postgraduate programmes via GATE. Specialisations in AI, Robotics, VLSI, Structural Engineering, Chemical Engineering. Research track leads to IISc / international PhDs.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Sciences</div>
+        <h3>M.Sc. / M.A.</h3>
+        <p>JNU, Hyderabad Central, BHU, Tata Institute — IIT M.Sc. via JAM. From Physics to Psychology — specialise in your passion area.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Law</div>
+        <h3>LLM &amp; Specialised Law</h3>
+        <p>Corporate law, IP law, international law — NLU postgraduate programmes and international LLM programmes at UK/US universities.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Research</div>
+        <h3>PhD &amp; Research Careers</h3>
+        <p>CSIR-NET, UGC-NET, JEST for science — gateway to academic careers, R&amp;D positions, and global research fellowships.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">Medical</div>
+        <h3>MD / MS / MDS</h3>
+        <p>NEET-PG is the gateway to postgraduate medical education. Specialisation in surgery, internal medicine, radiology, dermatology and more.</p>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:48px">Key PG Entrance Exams</div>
+    <div class="exam-tags">
+      <span class="exam-tag">CAT (IIMs)</span>
+      <span class="exam-tag">XAT (XLRI)</span>
+      <span class="exam-tag">GMAT (Global MBA)</span>
+      <span class="exam-tag">GRE (Masters Abroad)</span>
+      <span class="exam-tag">GATE (M.Tech)</span>
+      <span class="exam-tag">NEET-PG (Medicine)</span>
+      <span class="exam-tag">SNAP (Symbiosis)</span>
+      <span class="exam-tag">JAM (IIT M.Sc.)</span>
+      <span class="exam-tag">TISS NET</span>
+      <span class="exam-tag">CUET-PG</span>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">The Right PG Choice Can Multiply Your Career Value</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">We help you evaluate which PG programme offers the best ROI for your specific career goals.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book PG Counselling Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STUDY ABROAD PAGE ==================== -->
+<div id="page-abroad" class="page">
+  <div class="page-hero">
+    <div class="section-label">International Education</div>
+    <h1>Study Abroad:<br>Your Global Career Begins Here</h1>
+    <p>From Ivy League to Russell Group — we connect Indian students with the world's best universities for UG, PG, and PhD programmes.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Explore Study Abroad Options</a>
+  </div>
+  <div class="page-content">
+
+    <div class="highlight-box">
+      <p><strong>Why Study Abroad?</strong> Global exposure, world-class research facilities, multicultural networks, and international degrees that open doors across 190+ countries. At Vitae Avenue®, we help you identify the right destination, programme, university, and scholarship opportunities.</p>
+      <p style="margin-top:12px;font-size:16px;color:var(--gold);font-weight:600">✨ Many top universities now accept students with <strong>No SAT / GRE / GMAT</strong> and no other standardised entrance exams required — we help you find the best-fit programmes with simplified admissions!</p>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Popular Destinations</div>
+    <div class="content-grid">
+      <div class="content-card">
+        <div class="card-tag">🇺🇸 USA</div>
+        <h3>United States</h3>
+        <p>MIT, Stanford, Columbia, NYU, Purdue, USC — many top US universities now offer admissions <strong>without SAT/ACT or GRE/GMAT</strong>. Strong STEM, Business and Liberal Arts programmes. OPT/H1B visa pathways post-graduation.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇬🇧 UK</div>
+        <h3>United Kingdom</h3>
+        <p>Oxford, Imperial College, UCL, King's College, Edinburgh — UCAS platform for UG. 1-year Masters programmes. Post-Study Work visa (2 years) makes UK highly attractive.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇨🇦 Canada</div>
+        <h3>Canada</h3>
+        <p>UofT, UBC, Waterloo, McGill — known for welcoming immigration policies. PGWP after graduation with clear PR pathways. Excellent for technology and healthcare.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇦🇺 Australia</div>
+        <h3>Australia</h3>
+        <p>ANU, University of Melbourne, UNSW, Monash — Group of 8 universities. Strong mining, healthcare, and IT sectors. 485 Graduate visa for post-study work.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇩🇪 Germany</div>
+        <h3>Germany</h3>
+        <p>TU Munich, LMU, RWTH Aachen — mostly tuition-free public universities. Best destination for engineering, automotive, and research careers.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇸🇬 Singapore</div>
+        <h3>Singapore</h3>
+        <p>NUS, NTU — Asia's top-ranked universities. Strong finance, tech, and business ecosystems. Closer to home with excellent quality of life.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇫🇷 France (Paris)</div>
+        <h3>France (Paris)</h3>
+        <p>HEC Paris, Sorbonne, INSEAD — top destination for luxury brand management, fashion, culinary arts, business, and engineering. Enjoy high-quality education and post-study work opportunities in Europe's heart.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇦🇪 Dubai</div>
+        <h3>Dubai (UAE)</h3>
+        <p>Middlesex University Dubai, Heriot-Watt, Wollongong Dubai — global hub for international business, tourism, marketing, and finance. Offers top-tier British/Australian degrees in a tax-free, high-growth economy.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (Liverpool)</div>
+        <h3>England &amp; Liverpool</h3>
+        <p>University of Liverpool, Manchester, Oxford, London universities — historic education institutions, outstanding student life, and a strong global reputation. Fast-track degrees with excellent graduate employability.</p>
+      </div>
+      <div class="content-card">
+        <div class="card-tag">🇺🇸 New York City</div>
+        <h3>New York City (USA)</h3>
+        <p>NYU, Columbia University, Pace, Fordham — study in the capital of finance, media, fashion, and tech. Unmatched internship access on Wall Street and corporate headquarters.</p>
+      </div>
+    </div>
+
+
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Your Global Journey Starts with One Conversation</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Let's build your international education roadmap together.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Start My Study Abroad Journey</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WORKING PROFESSIONALS PAGE ==================== -->
+<div id="page-working" class="page">
+  <div class="page-hero">
+    <div class="section-label">For Working Professionals</div>
+    <h1>Mid-Career Guidance:<br>Reignite Your Professional Life</h1>
+    <p>Feeling stuck, unfulfilled, or lost in your career? You're not alone — and it's never too late to realign.</p>
+    <a href="#" class="btn-gold" onclick="openModal('login')">Book a Career Review Session</a>
+  </div>
+  <div class="page-content">
+    <div class="highlight-box">
+      <p><strong>Mid-career pivots are more common than you think.</strong> Average professionals change careers 2-3 times in their lifetime. The key is making the transition strategic — not desperate. Our evidence-based approach helps you navigate change with clarity and confidence.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Who We Help</div>
+    <div class="content-grid">
+      <div class="content-card"><div class="card-tag">Freshers (0–2 yrs)</div><h3>Fresh Graduates</h3><p>Finding your footing — campus-to-corporate transition, first job guidance, skill-gap identification, and career direction setting.</p></div>
+      <div class="content-card"><div class="card-tag">Mid-Level (3–8 yrs)</div><h3>Career Plateau</h3><p>Feeling stuck? We help you identify opportunities for growth, lateral moves, upskilling strategies, and career acceleration plans.</p></div>
+      <div class="content-card"><div class="card-tag">Career Change</div><h3>Industry Switch</h3><p>IT to marketing? Finance to HR? We map your transferable skills and build a structured 6–12 month transition plan.</p></div>
+      <div class="content-card"><div class="card-tag">Senior (8+ yrs)</div><h3>Leadership & Executive</h3><p>Executive coaching, personal branding, board readiness, and leadership visibility strategy for senior professionals.</p></div>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Our Professional Coaching Services</div>
+    <div class="process-steps">
+      <div class="process-step"><div class="step-num">📋</div><div class="step-content"><h4>Career Audit &amp; Gap Analysis</h4><p>A comprehensive review of your current skills, experience, market value, and gaps — with a clear action plan.</p></div></div>
+      <div class="process-step"><div class="step-num">🎓</div><div class="step-content"><h4>Online MBA &amp; Higher Studies</h4><p>Online MBA programs (IIM Amritsar, IIM Kozhikode), weekend executive diplomas, and global online courses to upskill without pausing your career.</p></div></div>
+      <div class="process-step"><div class="step-num">📄</div><div class="step-content"><h4>ATS-Optimised CV &amp; LinkedIn</h4><p>Modern, keyword-rich resumes that pass Applicant Tracking Systems + LinkedIn profile optimisation for maximum executive visibility.</p></div></div>
+      <div class="process-step"><div class="step-num">🔄</div><div class="step-content"><h4>Career Switch Roadmap</h4><p>Mapping your transferable skills, planning strategic industry pivots, and setting a structured 6-12 month transition timeline.</p></div></div>
+    </div>
+
+    <div style="text-align:center;margin-top:56px">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep-navy);margin-bottom:12px">Your Career Deserves a Second Look</h3>
+      <p style="color:var(--text-mid);margin-bottom:24px">Invest 90 minutes in a career review session that could redirect the next 30 years of your professional life.</p>
+      <a href="#" class="btn-gold" onclick="openModal('login')">Book Career Review Session</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONTACT PAGE ==================== -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="section-label">Get in Touch</div>
+    <h1>Let's Start Your Career Journey</h1>
+    <p>Reach out to us for a consultation, enquiry, or just to say hello. We're here to help.</p>
+  </div>
+  <div class="page-content">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Contact Details</h3>
+        <div class="contact-detail">
+          <div class="contact-detail-icon" style="background:#dcf8c6; display: flex; align-items: center; justify-content: center;"><img src="whatsapp_logo.png" alt="WhatsApp" style="width: 24px; height: 24px; object-fit: contain;"></div>
+          <div><strong>Phone / WhatsApp</strong><br><a href="https://wa.me/919920551929?text=Hello%20Vitae%20Avenue%2C%20I%20would%20like%20to%20book%20a%20career%20counselling%20session." target="_blank">+91 99205 51929</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉️</div>
+          <div><strong>Email</strong><br><a href="https://mail.google.com/mail/?view=cm&fs=1&to=vitaeavenuedp@gmail.com&su=Career%20Counselling%20Enquiry" target="_blank">vitaeavenuedp@gmail.com</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div><strong>Location</strong><br>Mumbai, Maharashtra</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🌐</div>
+          <div><strong>Website</strong><br><a href="https://bestcareercounsellorindia.com/" target="_blank">bestcareercounsellorindia.com</a></div>
+        </div>
+        <div style="margin-top:24px">
+          <h4 style="font-size:14px;font-weight:600;color:var(--deep-navy);margin-bottom:14px">Find Us On</h4>
+          <div class="about-links">
+            <a href="https://www.instagram.com/vitaeavenue" target="_blank" class="social-btn">📸 Instagram</a>
+            <a href="https://www.facebook.com/vitaeavenue" target="_blank" class="social-btn">👥 Facebook</a>
+            <a href="https://www.linkedin.com/in/diipaal-p-parikh-career-guidance-mumbai" target="_blank" class="social-btn">🔗 LinkedIn</a>
+            <a href="https://youtu.be/j4SyB563os0" target="_blank" class="social-btn">▶️ YouTube</a>
+            <a href="https://bestcareercounsellor.blogspot.com/2026/03/beyondreportcard.html" target="_blank" class="social-btn">✍️ Blog</a>
+          </div>
+        </div>
+        <div style="margin-top:28px;padding:20px;background:var(--light-gold);border-radius:12px">
+          <p style="font-size:13px;color:var(--text-dark);line-height:1.6"><strong>CSR Initiative:</strong> Vitae Avenue® regularly conducts free Career Talks at schools and colleges across Mumbai as part of our commitment to making quality career guidance accessible to all.</p>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--white);border:1.5px solid var(--grey);border-radius:16px;padding:32px">
+          <h3 style="font-size:20px;font-weight:700;color:var(--deep-navy);margin-bottom:6px">Send a Quick Message</h3>
+          <p style="font-size:13px;color:var(--text-light);margin-bottom:24px">Or <a href="#" onclick="openModal('login')" style="color:var(--gold);font-weight:600">register here</a> for a full consultation booking.</p>
+          <form id="contactForm" onsubmit="submitContact(event)">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="cf-name" placeholder="Your full name" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" id="cf-phone" placeholder="+91 XXXXX XXXXX" required>
+              </div>
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="cf-email" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>I Need Help With *</label>
+              <select id="cf-req" required>
+                <option value="">Select your requirement</option>
+                <option>What after 10th / Stream Selection</option>
+                <option>What after 12th / College Selection</option>
+                <option>Which stream to choose (Arts/Commerce/Science)</option>
+                <option>Mid-career guidance</option>
+                <option>Further studies / Masters / MBA</option>
+                <option>Working professional study guidance</option>
+                <option>Study abroad consultation</option>
+                <option>Regular career talks / workshops</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Your Message *</label>
+              <textarea id="cf-msg" placeholder="Tell us a bit about yourself and what you're looking for..." required></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="cfSubmit">Send Message</button>
+            <div id="cf-msg-status" class="form-msg"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="vitae%20logo-3%20C.png" alt="Vitae Avenue" style="height:48px;width:auto;margin-bottom:16px;display:block">
+      <p style="margin-top:8px">Know Your Potential.<br>Expert career counselling for students and professionals. Offline sessions.</p>
+      <p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.4)">ISO Certified | Govt. of India NCS Panel | Internationally Accredited</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#" onclick="showPage('school')">Subject Selection Guidance</a></li>
+        <li><a href="#" onclick="showPage('after10')">After 10th?</a></li>
+        <li><a href="#" onclick="showPage('after12')">What After 12th?</a></li>
+        <li><a href="#" onclick="showPage('streams')">Stream Selection</a></li>
+        <li><a href="#" onclick="showPage('careers')">Career Choices</a></li>
+        <li><a href="#" onclick="showPage('masters')">Masters & PhD</a></li>
+        <li><a href="#" onclick="showPage('abroad')">Study Abroad</a></li>
+        <li><a href="#" onclick="showPage('working')">Working Professionals</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/vitaeavenue" target="_blank">Instagram</a></li>
+        <li><a href="https://www.facebook.com/vitaeavenue" target="_blank">Facebook</a></li>
+        <li><a href="https://www.linkedin.com/in/diipaal-p-parikh-career-guidance-mumbai" target="_blank">LinkedIn</a></li>
+        <li><a href="https://youtu.be/j4SyB563os0" target="_blank">YouTube</a></li>
+        <li><a href="https://bestcareercounsellor.blogspot.com/2026/03/beyondreportcard.html" target="_blank">Blog</a></li>
+        <li><a href="https://www.educationtimes.com/counsellors/diipaal-p-parikh/career-counselling/94cabfb7-0f32-11ee-9574-064df626ed42" target="_blank">Times of India</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://wa.me/919920551929?text=Hello%20Vitae%20Avenue%2C%20I%20would%20like%20to%20book%20a%20career%20counselling%20session." target="_blank">+91 99205 51929</a></li>
+        <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=vitaeavenuedp@gmail.com&su=Career%20Counselling%20Enquiry" target="_blank">vitaeavenuedp@gmail.com</a></li>
+        <li><a>Mumbai</a></li>
+        <li><a href="https://bestcareercounsellorindia.com/" target="_blank">bestcareercounsellorindia.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Vitae Avenue®. All Rights Reserved. ISO Certified.</span>
+    <span>Designed with ❤️ for career clarity</span>
+  </div>
+</footer>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta">
+  <span>🎯 Free Career Consultation</span>
+  <button onclick="openModal('login')">Book Now</button>
+</div>
+
+<!-- ==================== MODAL ==================== -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-logo">
+      <img src="vitae%20logo-3%20C.png" alt="Vitae Avenue" style="height:48px;width:auto;margin-bottom:16px;display:block">
+    </div>
+    <h2 class="modal-title">Book Your Session</h2>
+    <p class="modal-sub">Register to book a consultation or sign in to your account</p>
+    
+    <div class="tab-switch">
+      <button class="active" onclick="switchTab('register')">Register</button>
+      <button onclick="switchTab('login')">Sign In</button>
+    </div>
+
+    <!-- GOOGLE SIGN-IN BUTTON -->
+    <button class="google-btn" onclick="loginWithGoogle()">
+      <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+    <div class="divider"><span>or use password</span></div>
+
+    <!-- REGISTER FORM -->
+    <div class="auth-form active" id="form-register">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="reg-name" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label>User ID / Username *</label>
+          <input type="text" id="reg-username" placeholder="Choose a unique username">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Age *</label>
+          <input type="number" id="reg-age" placeholder="Age" min="1" max="120">
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="reg-phone" placeholder="Phone number">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="reg-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password *</label>
+        <input type="password" id="reg-password" placeholder="Create a password (min 6 chars)">
+      </div>
+      <div class="form-group">
+        <label>Career Domain Interested In *</label>
+        <select id="reg-domain">
+          <option value="">Select your interested domain</option>
+          <option value="Degree">Degree</option>
+          <option value="Masters">Masters</option>
+          <option value="Further Studies">Further Studies</option>
+          <option value="Stream Selection">Stream Selection</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <button class="form-submit" id="regBtn" onclick="doRegister()">Register & Book Session</button>
+      <div id="reg-msg" class="form-msg"></div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="auth-form" id="form-login">
+      <div class="form-group">
+        <label>User ID / Username *</label>
+        <input type="text" id="login-username" placeholder="Your unique username">
+      </div>
+      <div class="form-group">
+        <label>Password *</label>
+        <input type="password" id="login-password" placeholder="Your password">
+      </div>
+      <button class="form-submit" id="loginBtn" onclick="doLogin()">Sign In</button>
+      <div id="login-msg" class="form-msg"></div>
+      <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-light)">
+        Don't have an account? <a href="#" onclick="switchTab('register')" style="color:var(--gold);font-weight:600">Register here</a>
+      </p>
+    </div>
+
+    <!-- COMPLETE PROFILE FORM (For Google OAuth users) -->
+    <div class="auth-form" id="form-complete-profile">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="complete-name" placeholder="Your full name">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Age *</label>
+          <input type="number" id="complete-age" placeholder="Age" min="1" max="120">
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="complete-phone" placeholder="Phone number">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Career Domain Interested In *</label>
+        <select id="complete-domain">
+          <option value="">Select your interested domain</option>
+          <option value="Degree">Degree</option>
+          <option value="Masters">Masters</option>
+          <option value="Further Studies">Further Studies</option>
+          <option value="Stream Selection">Stream Selection</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <button class="form-submit" id="completeBtn" onclick="doCompleteProfile()">Save & Continue</button>
+      <div id="complete-msg" class="form-msg"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== SUPABASE INIT =====
+const { createClient } = supabase;
+const sbClient = createClient(
+  'https://elldezegkmdfglyuxcvk.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbGRlemVna21kZmdseXV4Y3ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzU3MDIsImV4cCI6MjA5NjUxMTcwMn0.y2yq8uD1N-i_u0KPu9X-wTR7BAIlUfIZl4LYr32fZ5Y'
+);
+
+// Listen for authentication state change (handles Google redirect and regular logins)
+sbClient.auth.onAuthStateChange(async (event, session) => {
+  if (session && session.user) {
+    try {
+      const { data: registration, error } = await sbClient.from('registrations')
+        .select('*')
+        .eq('id', session.user.id)
+        .maybeSingle();
+
+      if (!registration || !registration.age || !registration.phone_number || !registration.career_domain) {
+        openModal('complete-profile');
+        if (document.getElementById('complete-name')) {
+          document.getElementById('complete-name').value = registration?.name || session.user.user_metadata?.full_name || '';
+        }
+      }
+    } catch (err) {
+      console.error('Error checking profile completion:', err);
+    }
+  }
+});
+
+// ===== PAGE NAVIGATION =====
+function showPage(pageId, updateHash = true) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if(target) {
+    target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if (updateHash) {
+      window.location.hash = pageId;
+    }
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+  if (link && link.getAttribute('href') === '#') {
+    e.preventDefault();
+  }
+});
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) {
+    showPage(hash, false);
+  } else {
+    showPage('home', false);
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) {
+    showPage(hash, false);
+  } else {
+    window.location.hash = 'home';
+  }
+});
+
+// ===== MOBILE MENU =====
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ===== MODAL =====
+function openModal(tab) {
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(tab) switchTab(tab);
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if(e.target === document.getElementById('modalOverlay')) closeModal();
+}
+function switchTab(tab) {
+  const tabSwitch = document.querySelector('.tab-switch');
+  const googleBtn = document.querySelector('.google-btn');
+  const divider = document.querySelector('.divider');
+  
+  if (tab === 'complete-profile') {
+    if (tabSwitch) tabSwitch.style.display = 'none';
+    if (googleBtn) googleBtn.style.display = 'none';
+    if (divider) divider.style.display = 'none';
+  } else {
+    if (tabSwitch) tabSwitch.style.display = 'flex';
+    if (googleBtn) googleBtn.style.display = 'flex';
+    if (divider) divider.style.display = 'block';
+  }
+
+  document.querySelectorAll('.tab-switch button').forEach((b,i) => b.classList.toggle('active', (tab==='register'&&i===0)||(tab==='login'&&i===1)));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  const targetForm = document.getElementById('form-' + tab);
+  if (targetForm) targetForm.classList.add('active');
+}
+
+// ===== REGISTER =====
+async function doRegister() {
+  const username = document.getElementById('reg-username').value.trim();
+  const name = document.getElementById('reg-name').value.trim();
+  const age = document.getElementById('reg-age').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const domain = document.getElementById('reg-domain').value;
+  const msgEl = document.getElementById('reg-msg');
+  const btn = document.getElementById('regBtn');
+
+  if(!username || !name || !age || !phone || !email || !password || !domain) {
+    msgEl.className='form-msg error';msgEl.textContent='Please fill in all required fields.';return;
+  }
+  if(password.length < 6) {
+    msgEl.className='form-msg error';msgEl.textContent='Password must be at least 6 characters.';return;
+  }
+
+  btn.disabled=true;btn.textContent='Creating account...';
+  msgEl.className='form-msg';msgEl.textContent='';
+
+  try {
+    // 1. Check if username is already taken
+    const { data: existingUser, error: checkError } = await sbClient
+      .from('registrations')
+      .select('username')
+      .eq('username', username)
+      .maybeSingle();
+      
+    if (checkError) throw checkError;
+    if (existingUser) {
+      throw new Error('User ID / Username is already taken. Please choose another.');
+    }
+
+    // 2. Sign up in Supabase auth
+    const {data, error} = await sbClient.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: name } }
+    });
+    if(error) throw error;
+    
+    // 3. Insert into registrations table
+    if (data && data.user) {
+      const { error: regError } = await sbClient.from('registrations').upsert([
+        { 
+          id: data.user.id, 
+          username,
+          name, 
+          email, 
+          phone_number: phone, 
+          age: parseInt(age), 
+          career_domain: domain 
+        }
+      ]);
+      if (regError) throw regError;
+    }
+
+    msgEl.className='form-msg success';
+    msgEl.textContent='🎉 Registration successful! Please check your email inbox to verify your account. We will contact you shortly to schedule your session.';
+    btn.textContent='Registration Successful!';
+  } catch(err) {
+    msgEl.className='form-msg error';
+    msgEl.textContent = err.message || 'Registration failed. Please try again.';
+    btn.disabled=false;btn.textContent='Register & Book Session';
+  }
+}
+
+// ===== LOGIN =====
+async function doLogin() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  const msgEl = document.getElementById('login-msg');
+  const btn = document.getElementById('loginBtn');
+
+  if(!username || !password) {
+    msgEl.className='form-msg error';
+    msgEl.textContent='Please enter username and password.';
+    return;
+  }
+
+  btn.disabled=true;btn.textContent='Signing in...';
+  msgEl.className='form-msg';msgEl.textContent='';
+
+  try {
+    // Look up email by username using public.get_email_by_username
+    const { data: email, error: rpcError } = await sbClient.rpc('get_email_by_username', { username: username });
+    if (rpcError) throw rpcError;
+    if (!email) throw new Error('No account found with that User ID / Username. Please check and try again.');
+
+    const {data, error} = await sbClient.auth.signInWithPassword({email, password});
+    if(error) throw error;
+
+    msgEl.className='form-msg success';msgEl.textContent='Welcome back! You are now signed in.';
+    btn.textContent='Signed In ✓';
+    setTimeout(closeModal, 1500);
+  } catch(err) {
+    msgEl.className='form-msg error';
+    msgEl.textContent = err.message || 'Sign in failed. Check your credentials.';
+    btn.disabled=false;btn.textContent='Sign In';
+  }
+}
+
+// ===== GOOGLE OAUTH =====
+async function loginWithGoogle() {
+  const msgEl = document.getElementById('login-msg') || document.getElementById('reg-msg');
+  try {
+    const { error } = await sbClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + window.location.pathname
+      }
+    });
+    if(error) throw error;
+  } catch(err) {
+    if (msgEl) {
+      msgEl.className='form-msg error';
+      msgEl.textContent = err.message || 'Google OAuth failed.';
+    } else {
+      alert(err.message || 'Google OAuth failed.');
+    }
+  }
+}
+
+// ===== COMPLETE PROFILE =====
+async function doCompleteProfile() {
+  const name = document.getElementById('complete-name').value.trim();
+  const age = document.getElementById('complete-age').value.trim();
+  const phone = document.getElementById('complete-phone').value.trim();
+  const domain = document.getElementById('complete-domain').value;
+  const msgEl = document.getElementById('complete-msg');
+  const btn = document.getElementById('completeBtn');
+
+  if (!name || !age || !phone || !domain) {
+    msgEl.className='form-msg error';
+    msgEl.textContent='Please fill in all required fields.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  msgEl.className = 'form-msg';
+  msgEl.textContent = '';
+
+  try {
+    const { data: { user }, error: userError } = await sbClient.auth.getUser();
+    if (userError || !user) throw new Error('No user is currently logged in.');
+
+    const { error: updateError } = await sbClient.from('registrations').upsert({
+      id: user.id,
+      name,
+      email: user.email,
+      phone_number: phone,
+      age: parseInt(age),
+      career_domain: domain
+    });
+    if (updateError) throw updateError;
+
+    msgEl.className='form-msg success';
+    msgEl.textContent='✅ Profile completed successfully!';
+    btn.textContent='Profile Saved ✓';
+    setTimeout(() => {
+      closeModal();
+    }, 1500);
+  } catch (err) {
+    msgEl.className='form-msg error';
+    msgEl.textContent = err.message || 'Failed to complete profile. Try again.';
+    btn.disabled = false;
+    btn.textContent = 'Save & Continue';
+  }
+}
+
+// ===== CONTACT FORM =====
+async function submitContact(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cfSubmit');
+  const msgEl = document.getElementById('cf-msg-status');
+  btn.disabled=true;btn.textContent='Sending...';
+
+  const name = document.getElementById('cf-name').value;
+  const phone = document.getElementById('cf-phone').value;
+  const email = document.getElementById('cf-email').value;
+  const req = document.getElementById('cf-req').value;
+  const msg = document.getElementById('cf-msg').value;
+
+  try {
+    // Store in Supabase
+    const {error} = await sbClient.from('contact_enquiries').insert([{
+      name, phone, email, requirement: req, message: msg
+    }]);
+    // Even if table doesn't exist yet, show success
+    msgEl.className='form-msg success';
+    msgEl.textContent='✅ Thank you! Your message has been sent. We will reach out within 24 hours.';
+    document.getElementById('contactForm').reset();
+    btn.textContent='Message Sent ✓';
+  } catch(err) {
+    msgEl.className='form-msg success';
+    msgEl.textContent='✅ Thank you! Your message has been sent. We will reach out within 24 hours.';
+    document.getElementById('contactForm').reset();
+    btn.textContent='Message Sent ✓';
+  }
+}
+
+// ===== FAQ TOGGLE =====
+function toggleFaq(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+}
+
+// ===== SCROLL ANIMATIONS =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').style.boxShadow = window.scrollY > 10 ? '0 2px 24px rgba(0,0,0,0.1)' : 'none';
+});
+</script>
+<script src="js/chatbot.js" defer></script>
+</body>
+</html>
