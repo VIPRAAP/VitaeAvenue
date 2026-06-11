@@ -6,7 +6,6 @@
 <title>Vitae Avenue® | Career Counselling Mumbai | Diipaal P Parikh</title>
 <meta name="description" content="Expert career counselling in Mumbai by Diipaal P Parikh. Stream selection, college admission guidance, overseas studies. Offline.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/chatbot.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -704,6 +703,15 @@ footer{
       <li><a href="#" onclick="showPage('masters')">Masters & Further Studies</a></li>
       <li><a href="#" onclick="showPage('abroad')">Study Abroad</a></li>
       <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
+      <li>
+        <a href="https://wa.me/919920551929?text=Hello%20Vitae%20Avenue%2C%20I%20would%20like%20to%20book%20a%20career%20counselling%20session." 
+           target="_blank" 
+           class="nav-whatsapp-btn" 
+           title="Chat on WhatsApp"
+           aria-label="Chat on WhatsApp">
+          <img src="whatsapp_logo.png" alt="WhatsApp">
+        </a>
+      </li>
       <li><a href="#" class="nav-cta" onclick="openModal('login')">Book Session</a></li>
     </ul>
     <div class="hamburger" onclick="toggleMobileMenu()">
@@ -727,6 +735,11 @@ footer{
   <a href="#" onclick="showPage('abroad');toggleMobileMenu()">✈️ Study Abroad</a>
   <a href="#" onclick="showPage('working');toggleMobileMenu()">👔 Working Professionals</a>
   <a href="#" onclick="showPage('contact');toggleMobileMenu()">📞 Contact Us</a>
+  <a href="https://wa.me/919920551929?text=Hello%20Vitae%20Avenue%2C%20I%20would%20like%20to%20book%20a%20career%20counselling%20session." 
+     target="_blank" 
+     style="background:#e8f7ec;font-weight:700;color:#128c7e;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--grey);">
+    <img src="whatsapp_logo.png" alt="WhatsApp" style="width: 18px; height: 18px; object-fit: contain;"> Chat on WhatsApp
+  </a>
   <a href="#" onclick="openModal('login');toggleMobileMenu()" style="background:var(--light-gold);font-weight:700;color:var(--deep-navy)">📅 Book a Session</a>
 </div>
 
@@ -748,6 +761,12 @@ footer{
         </div>
         <div class="hero-btns">
           <a href="#" class="btn-gold" onclick="openModal('login')">Book Free Consultation</a>
+          <a href="https://wa.me/919920551929?text=Hello%20Vitae%20Avenue%2C%20I%20would%20like%20to%20book%20a%20career%20counselling%20session." 
+             target="_blank" 
+             class="btn-whatsapp-hero">
+            <img src="whatsapp_logo.png" alt="WhatsApp">
+            Chat on WhatsApp
+          </a>
           <a href="#" class="btn-outline" onclick="showPage('contact')">Know More</a>
         </div>
       </div>
@@ -2436,23 +2455,27 @@ window.addEventListener('scroll', () => {
 
 // ===== FLOATING CONTACT PROMPT =====
 let quickPromptShown = false;
+let scrollStartTime = null;
+let quickPromptTimer = null;
+
 window.addEventListener('scroll', () => {
-  if (quickPromptShown) return;
-  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollPct = (window.scrollY / (totalHeight || 1)) * 100;
-  if (scrollPct > 30) {
-    showQuickPrompt();
+  if (quickPromptShown || sessionStorage.getItem('quickPromptDismissed')) return;
+  if (!scrollStartTime) {
+    scrollStartTime = Date.now();
+    // Start a 15-second timer from the moment they start scrolling
+    quickPromptTimer = setTimeout(showQuickPrompt, 15000);
   }
 });
 
+// Backup: if they don't scroll but stay on the page, show it after 25 seconds anyway
 setTimeout(() => {
-  if (!quickPromptShown) {
+  if (!quickPromptShown && !sessionStorage.getItem('quickPromptDismissed')) {
     showQuickPrompt();
   }
-}, 8000);
+}, 25000);
 
 function showQuickPrompt() {
-  if (quickPromptShown) return;
+  if (quickPromptShown || sessionStorage.getItem('quickPromptDismissed')) return;
   const prompt = document.getElementById('quick-message-prompt');
   if (prompt) {
     prompt.classList.add('show');
@@ -2466,6 +2489,7 @@ function closeQuickPrompt(e) {
   if (prompt) {
     prompt.classList.remove('show');
   }
+  sessionStorage.setItem('quickPromptDismissed', 'true');
 }
 
 function triggerQuickPromptRedirect() {
@@ -2491,33 +2515,89 @@ function triggerQuickPromptRedirect() {
 
 <!-- FLOATING CONTACT PROMPT POPUP -->
 <div id="quick-message-prompt" class="quick-prompt-card">
-  <button class="quick-prompt-close" onclick="closeQuickPrompt(event)">✕</button>
+  <button class="quick-prompt-close" onclick="closeQuickPrompt(event)" aria-label="Close prompt">✕</button>
   <div class="quick-prompt-body">
-    <div class="quick-prompt-icon">💬</div>
+    <div class="quick-prompt-icon-wrap">
+      <svg class="quick-prompt-svg" viewBox="0 0 24 24" width="22" height="22">
+        <path d="M12 2C6.48 2 2 6.48 2 12c0 2.22.73 4.28 1.96 5.96L2.3 22.1c-.24.57.29 1.1 0.86.86l4.14-1.66C8.98 21.78 10.44 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92c-.72.73-1.17 1.33-1.17 2.83h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H6c0-3.31 2.69-6 6-6s6 2.69 6 6c0 1.04-.42 1.99-1.07 2.75z" fill="var(--deep-navy)"/>
+      </svg>
+    </div>
     <div class="quick-prompt-text">
-      <h4>Have a quick query?</h4>
-      <p>Send a message directly to our career expert!</p>
+      <h4>Quick Query?</h4>
+      <p>Ask our expert right now!</p>
     </div>
   </div>
-  <button class="quick-prompt-btn" onclick="triggerQuickPromptRedirect()">Send Quick Message</button>
+  <button class="quick-prompt-btn" onclick="triggerQuickPromptRedirect()">Send Message</button>
 </div>
 
 <style>
+/* WhatsApp Integrations */
+.nav-whatsapp-btn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 8px !important;
+  margin: 0 6px 0 10px;
+  background: rgba(37, 211, 102, 0.12);
+  border-radius: 50% !important;
+  transition: all 0.2s ease;
+}
+.nav-whatsapp-btn:hover {
+  background: rgba(37, 211, 102, 0.22);
+  transform: scale(1.08);
+}
+.nav-whatsapp-btn img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  object-fit: contain;
+}
+
+.btn-whatsapp-hero {
+  background: linear-gradient(135deg, #25D366 0%, #20ba56 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+}
+.btn-whatsapp-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+}
+.btn-whatsapp-hero img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* Floating Query Prompt Styles */
 .quick-prompt-card {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--white);
-  border: 2px solid var(--gold);
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
-  padding: 20px;
-  max-width: 320px;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1.5px solid rgba(245, 166, 35, 0.45);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(45, 52, 101, 0.15);
+  padding: 14px 16px;
+  width: 220px;
   z-index: 1500;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transform: translateY(120%);
+  gap: 10px;
+  transform: translateY(150%);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .quick-prompt-card.show {
@@ -2526,59 +2606,78 @@ function triggerQuickPromptRedirect() {
 .quick-prompt-close {
   position: absolute;
   top: 8px;
-  right: 8px;
+  right: 10px;
   border: none;
   background: transparent;
   cursor: pointer;
   font-size: 14px;
   color: var(--text-light);
+  line-height: 1;
 }
 .quick-prompt-close:hover {
   color: var(--text-dark);
 }
 .quick-prompt-body {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
 }
-.quick-prompt-icon {
-  font-size: 28px;
+.quick-prompt-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--light-gold);
+  border: 1.5px solid rgba(245, 166, 35, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: pulseGold 2s infinite;
+}
+@keyframes pulseGold {
+  0% { box-shadow: 0 0 0 0 rgba(245, 166, 35, 0.45); }
+  70% { box-shadow: 0 0 0 10px rgba(245, 166, 35, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 166, 35, 0); }
 }
 .quick-prompt-text h4 {
   font-size: 14px;
   font-weight: 700;
   color: var(--deep-navy);
+  margin-bottom: 2px;
 }
 .quick-prompt-text p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-mid);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 .quick-prompt-btn {
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--gold) 0%, #e8960f 100%);
   color: var(--deep-navy);
   font-weight: 700;
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  padding: 9px;
   cursor: pointer;
-  transition: background 0.2s;
-  font-size: 13px;
+  transition: all 0.2s ease;
+  font-size: 12px;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.20);
 }
 .quick-prompt-btn:hover {
-  background: #e8960f;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(245, 166, 35, 0.35);
 }
+
 @media (max-width: 768px) {
   .quick-prompt-card {
-    bottom: 80px;
+    bottom: 24px;
     right: 16px;
     left: 16px;
     max-width: none;
+    width: auto;
   }
 }
 </style>
 
-<script src="js/chatbot.js" defer></script>
 </body>
 </html>
