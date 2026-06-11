@@ -37,7 +37,6 @@ async function doRegister() {
   const username = document.getElementById('reg-username').value.trim();
   const name = document.getElementById('reg-name').value.trim();
   const age = document.getElementById('reg-age').value.trim();
-  const phoneCode = document.getElementById('reg-phone-code').value;
   const phoneNumber = document.getElementById('reg-phone').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const password = document.getElementById('reg-password').value;
@@ -68,7 +67,7 @@ async function doRegister() {
     msgEl.className='form-msg error';msgEl.textContent='Password must be at least 6 characters.';return;
   }
 
-  const phone = phoneCode + ' ' + phoneNumber;
+  const phone = phoneNumber;
 
   btn.disabled=true;btn.textContent='Creating account...';
   msgEl.className='form-msg';msgEl.textContent='';
@@ -188,7 +187,6 @@ async function loginWithGoogle() {
 async function doCompleteProfile() {
   const name = document.getElementById('complete-name').value.trim();
   const age = document.getElementById('complete-age').value.trim();
-  const phoneCode = document.getElementById('complete-phone-code').value;
   const phoneNumber = document.getElementById('complete-phone').value.trim();
   const domain = document.getElementById('complete-domain').value;
   const msgEl = document.getElementById('complete-msg');
@@ -207,7 +205,7 @@ async function doCompleteProfile() {
     return;
   }
 
-  const phone = phoneCode + ' ' + phoneNumber;
+  const phone = phoneNumber;
 
   btn.disabled = true;
   btn.textContent = 'Saving...';

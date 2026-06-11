@@ -1765,20 +1765,7 @@ footer{
             <div class="form-row">
               <div class="form-group">
                 <label>Phone *</label>
-                <div class="phone-input-container" style="display: flex; gap: 8px;">
-                  <select id="cf-phone-code" style="width: 100px; flex-shrink: 0; border: 1.5px solid var(--grey); border-radius: 10px; padding: 12px 6px; background: var(--cream); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;">
-                    <option value="+91">🇮🇳 +91</option>
-                    <option value="+61">🇦🇺 +61</option>
-                    <option value="+1">🇨🇦 +1</option>
-                    <option value="+33">🇫🇷 +33</option>
-                    <option value="+49">🇩🇪 +49</option>
-                    <option value="+65">🇸🇬 +65</option>
-                    <option value="+971">🇦🇪 +971</option>
-                    <option value="+44">🇬🇧 +44</option>
-                    <option value="+1">🇺🇸 +1</option>
-                  </select>
-                  <input type="tel" id="cf-phone" placeholder="10-digit number" required style="flex-grow: 1;">
-                </div>
+                <input type="tel" id="cf-phone" placeholder="10-digit phone number" required>
               </div>
               <div class="form-group">
                 <label>Email *</label>
@@ -1913,20 +1900,7 @@ footer{
         </div>
         <div class="form-group">
           <label>Phone Number *</label>
-          <div class="phone-input-container" style="display: flex; gap: 8px;">
-            <select id="reg-phone-code" style="width: 100px; flex-shrink: 0; border: 1.5px solid var(--grey); border-radius: 10px; padding: 12px 6px; background: var(--cream); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;">
-              <option value="+91">🇮🇳 +91</option>
-              <option value="+61">🇦🇺 +61</option>
-              <option value="+1">🇨🇦 +1</option>
-              <option value="+33">🇫🇷 +33</option>
-              <option value="+49">🇩🇪 +49</option>
-              <option value="+65">🇸🇬 +65</option>
-              <option value="+971">🇦🇪 +971</option>
-              <option value="+44">🇬🇧 +44</option>
-              <option value="+1">🇺🇸 +1</option>
-            </select>
-            <input type="tel" id="reg-phone" placeholder="10-digit number" style="flex-grow: 1;">
-          </div>
+          <input type="tel" id="reg-phone" placeholder="10-digit phone number">
         </div>
       </div>
       <div class="form-group">
@@ -1982,20 +1956,7 @@ footer{
         </div>
         <div class="form-group">
           <label>Phone Number *</label>
-          <div class="phone-input-container" style="display: flex; gap: 8px;">
-            <select id="complete-phone-code" style="width: 100px; flex-shrink: 0; border: 1.5px solid var(--grey); border-radius: 10px; padding: 12px 6px; background: var(--cream); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;">
-              <option value="+91">🇮🇳 +91</option>
-              <option value="+61">🇦🇺 +61</option>
-              <option value="+1">🇨🇦 +1</option>
-              <option value="+33">🇫🇷 +33</option>
-              <option value="+49">🇩🇪 +49</option>
-              <option value="+65">🇸🇬 +65</option>
-              <option value="+971">🇦🇪 +971</option>
-              <option value="+44">🇬🇧 +44</option>
-              <option value="+1">🇺🇸 +1</option>
-            </select>
-            <input type="tel" id="complete-phone" placeholder="10-digit number" style="flex-grow: 1;">
-          </div>
+          <input type="tel" id="complete-phone" placeholder="10-digit phone number">
         </div>
       </div>
       <div class="form-group">
@@ -2040,17 +2001,14 @@ sbClient.auth.onAuthStateChange(async (event, session) => {
         const rawPhone = registration?.phone_number || session.user.user_metadata?.phone_number || '';
         const domainVal = registration?.career_domain || session.user.user_metadata?.career_domain || '';
 
-        let phoneCodeVal = '+91';
         let phoneNumVal = '';
-        if (rawPhone.includes(' ')) {
-          const parts = rawPhone.split(' ');
-          phoneCodeVal = parts[0];
-          phoneNumVal = parts.slice(1).join(' ');
-        } else if (rawPhone.startsWith('+')) {
-          phoneCodeVal = rawPhone.substring(0, 3);
-          phoneNumVal = rawPhone.substring(3);
-        } else {
-          phoneNumVal = rawPhone;
+        if (rawPhone) {
+          const cleaned = rawPhone.replace(/\D/g, '');
+          if (cleaned.length >= 10) {
+            phoneNumVal = cleaned.substring(cleaned.length - 10);
+          } else {
+            phoneNumVal = cleaned;
+          }
         }
 
         if (document.getElementById('complete-name')) {
@@ -2058,9 +2016,6 @@ sbClient.auth.onAuthStateChange(async (event, session) => {
         }
         if (document.getElementById('complete-age')) {
           document.getElementById('complete-age').value = ageVal;
-        }
-        if (document.getElementById('complete-phone-code')) {
-          document.getElementById('complete-phone-code').value = phoneCodeVal;
         }
         if (document.getElementById('complete-phone')) {
           document.getElementById('complete-phone').value = phoneNumVal;
@@ -2157,7 +2112,6 @@ async function doRegister() {
   const username = document.getElementById('reg-username').value.trim();
   const name = document.getElementById('reg-name').value.trim();
   const age = document.getElementById('reg-age').value.trim();
-  const phoneCode = document.getElementById('reg-phone-code').value;
   const phoneNumber = document.getElementById('reg-phone').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const password = document.getElementById('reg-password').value;
@@ -2188,7 +2142,7 @@ async function doRegister() {
     msgEl.className='form-msg error';msgEl.textContent='Password must be at least 6 characters.';return;
   }
 
-  const phone = phoneCode + ' ' + phoneNumber;
+  const phone = phoneNumber;
 
   btn.disabled=true;btn.textContent='Creating account...';
   msgEl.className='form-msg';msgEl.textContent='';
@@ -2308,7 +2262,6 @@ async function loginWithGoogle() {
 async function doCompleteProfile() {
   const name = document.getElementById('complete-name').value.trim();
   const age = document.getElementById('complete-age').value.trim();
-  const phoneCode = document.getElementById('complete-phone-code').value;
   const phoneNumber = document.getElementById('complete-phone').value.trim();
   const domain = document.getElementById('complete-domain').value;
   const msgEl = document.getElementById('complete-msg');
@@ -2327,7 +2280,7 @@ async function doCompleteProfile() {
     return;
   }
 
-  const phone = phoneCode + ' ' + phoneNumber;
+  const phone = phoneNumber;
 
   btn.disabled = true;
   btn.textContent = 'Saving...';
@@ -2382,7 +2335,6 @@ async function submitContact(e) {
   btn.disabled=true;btn.textContent='Sending...';
 
   const name = document.getElementById('cf-name').value.trim();
-  const phoneCode = document.getElementById('cf-phone-code').value;
   const phoneNumber = document.getElementById('cf-phone').value.trim();
   const email = document.getElementById('cf-email').value.trim();
   const req = document.getElementById('cf-req').value;
@@ -2407,7 +2359,7 @@ async function submitContact(e) {
     return;
   }
 
-  const phone = phoneCode + ' ' + phoneNumber;
+  const phone = phoneNumber;
 
   try {
     // Store in Supabase
