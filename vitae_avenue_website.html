@@ -45,18 +45,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
 .nav-logo{
   display:flex;align-items:center;justify-content:center;
   background:transparent;
-  padding:6px 16px;
+  padding:0 16px;
   min-height:72px;
   flex-shrink:0;
   text-decoration:none;
 }
 .nav-logo img{
-  height:56px;
-  width:56px;
-  object-fit:cover;
-  border-radius:10px;
+  height:44px;
+  width:auto;
+  object-fit:contain;
+  border-radius:6px;
   display:block;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .nav-links{display:flex;align-items:center;gap:0;list-style:none}
 .nav-links > li{position:relative}
@@ -495,7 +494,7 @@ section{padding:72px 24px}
 }
 .modal-close:hover{background:var(--grey)}
 .modal-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
-.modal-logo img{height:54px;width:54px;object-fit:cover;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.modal-logo img{height:64px;width:64px;object-fit:cover;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--deep-navy);margin-bottom:6px}
 .modal-sub{font-size:13px;color:var(--text-light);margin-bottom:28px}
 .form-group{margin-bottom:18px}
@@ -685,7 +684,7 @@ footer{
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#" class="nav-logo" onclick="showPage('home')">
-      <img src="vitae%20logo-3%20C.png" alt="Vitae Avenue Logo">
+      <img src="vitae_avenue_logo_horizontal.png" alt="Vitae Avenue Logo">
     </a>
     <ul class="nav-links">
       <li><a href="#" onclick="showPage('home')">Home</a></li>
@@ -1817,7 +1816,7 @@ footer{
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="vitae%20logo-3%20C.png" alt="Vitae Avenue" style="height:64px;width:64px;object-fit:cover;border-radius:10px;margin-bottom:16px;display:block;box-shadow:0 4px 12px rgba(0,0,0,0.15)">
+      <img src="vitae_avenue_logo_square.png" alt="Vitae Avenue" style="height:80px;width:80px;object-fit:cover;border-radius:12px;margin-bottom:16px;display:block;box-shadow:0 4px 12px rgba(0,0,0,0.15)">
       <p style="margin-top:8px">Know Your Potential.<br>Expert career counselling for students and professionals. Offline sessions.</p>
       <p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.4)">ISO Certified | Govt. of India NCS Panel | Internationally Accredited</p>
     </div>
@@ -1872,7 +1871,7 @@ footer{
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-logo">
-      <img src="vitae%20logo-3%20C.png" alt="Vitae Avenue">
+      <img src="vitae_avenue_logo_square.png" alt="Vitae Avenue">
     </div>
     <h2 class="modal-title">Book Your Session</h2>
     <p class="modal-sub">Register to book a consultation or sign in to your account</p>
