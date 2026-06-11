@@ -39,9 +39,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
   height:72px;
   flex-shrink:0;
   text-decoration:none;
+  position:relative;
 }
 .nav-logo img{
-  height:72px;
+  height:74px;
+  margin-bottom:-2px;
   width:auto;
   object-fit:contain;
   display:block;
