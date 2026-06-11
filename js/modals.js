@@ -241,17 +241,23 @@ async function submitContact(e) {
   try {
     // Store in Supabase
     const {error} = await sbClient.from('contact_enquiries').insert([{
-      name, phone, email, requirement: req, message: msg
+      name,
+      phone_number: phone,
+      email,
+      requirement: req,
+      query_message: msg
     }]);
-    // Even if table doesn't exist yet, show success
+    if (error) throw error;
+
     msgEl.className='form-msg success';
     msgEl.textContent='✅ Thank you! Your message has been sent. We will reach out within 24 hours.';
     document.getElementById('contactForm').reset();
     btn.textContent='Message Sent ✓';
   } catch(err) {
-    msgEl.className='form-msg success';
-    msgEl.textContent='✅ Thank you! Your message has been sent. We will reach out within 24 hours.';
-    document.getElementById('contactForm').reset();
-    btn.textContent='Message Sent ✓';
+    console.error('Contact Form Error:', err);
+    msgEl.className='form-msg error';
+    msgEl.textContent='❌ Failed to send message. Please check your connection and try again.';
+    btn.disabled=false;
+    btn.textContent='Send Message';
   }
 }
