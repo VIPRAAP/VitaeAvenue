@@ -5,6 +5,7 @@ let firstPopupTimer = null;
 let firstPopupActive = false;
 let secondPopupActive = false;
 let secondPopupListenersRegistered = false;
+let firstPopupAutoCloseTimer = null;
 
 // Initialize popups on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -54,11 +55,37 @@ function showFirstPopup() {
     modal.classList.add('show');
     document.body.style.overflow = 'hidden'; // Prevent page scroll under modal
     firstPopupActive = true;
+
+    // Auto-cancel after 7 seconds of showing up
+    firstPopupAutoCloseTimer = setTimeout(() => {
+      if (firstPopupActive) {
+        closeCenterModal();
+      }
+    }, 7000);
+
+    // Cancel auto-close if user starts interacting with the form
+    const popupFormBox = modal.querySelector('.popup-box');
+    if (popupFormBox) {
+      const cancelAutoClose = () => {
+        if (firstPopupAutoCloseTimer) {
+          clearTimeout(firstPopupAutoCloseTimer);
+          firstPopupAutoCloseTimer = null;
+        }
+      };
+      popupFormBox.addEventListener('click', cancelAutoClose);
+      popupFormBox.addEventListener('focusin', cancelAutoClose);
+    }
   }
 }
 
 // Close First Popup
 function closeCenterModal() {
+  // Clear the auto-close timer if still active
+  if (firstPopupAutoCloseTimer) {
+    clearTimeout(firstPopupAutoCloseTimer);
+    firstPopupAutoCloseTimer = null;
+  }
+
   const modal = document.getElementById('quick-message-center-modal');
   if (modal) {
     modal.classList.remove('show');
@@ -187,6 +214,12 @@ function removeSecondPopupListeners() {
 // Submit Center Popup Inquiry to Supabase
 async function submitPopupQuery(e) {
   e.preventDefault();
+
+  // Clear the auto-close timer if still active
+  if (firstPopupAutoCloseTimer) {
+    clearTimeout(firstPopupAutoCloseTimer);
+    firstPopupAutoCloseTimer = null;
+  }
 
   const name = document.getElementById('popup-name').value.trim();
   const phone = document.getElementById('popup-phone').value.trim();
