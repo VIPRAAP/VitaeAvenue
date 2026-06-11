@@ -1979,8 +1979,23 @@ sbClient.auth.onAuthStateChange(async (event, session) => {
 
       if (!registration || !registration.age || !registration.phone_number || !registration.career_domain) {
         openModal('complete-profile');
+        
+        const nameVal = registration?.name || session.user.user_metadata?.full_name || '';
+        const ageVal = registration?.age || session.user.user_metadata?.age || '';
+        const phoneVal = registration?.phone_number || session.user.user_metadata?.phone_number || '';
+        const domainVal = registration?.career_domain || session.user.user_metadata?.career_domain || '';
+
         if (document.getElementById('complete-name')) {
-          document.getElementById('complete-name').value = registration?.name || session.user.user_metadata?.full_name || '';
+          document.getElementById('complete-name').value = nameVal;
+        }
+        if (document.getElementById('complete-age')) {
+          document.getElementById('complete-age').value = ageVal;
+        }
+        if (document.getElementById('complete-phone')) {
+          document.getElementById('complete-phone').value = phoneVal;
+        }
+        if (document.getElementById('complete-domain')) {
+          document.getElementById('complete-domain').value = domainVal;
         }
       }
     } catch (err) {
@@ -2105,7 +2120,15 @@ async function doRegister() {
     const {data, error} = await sbClient.auth.signUp({
       email,
       password,
-      options: { data: { full_name: name } }
+      options: { 
+        data: { 
+          full_name: name,
+          username: username,
+          age: parseInt(age),
+          phone_number: phone,
+          career_domain: domain
+        } 
+      }
     });
     if(error) throw error;
     
@@ -2215,6 +2238,18 @@ async function doCompleteProfile() {
     const { data: { user }, error: userError } = await sbClient.auth.getUser();
     if (userError || !user) throw new Error('No user is currently logged in.');
 
+    // 1. Update Auth User Metadata
+    const { error: userUpdateError } = await sbClient.auth.updateUser({
+      data: {
+        full_name: name,
+        age: parseInt(age),
+        phone_number: phone,
+        career_domain: domain
+      }
+    });
+    if (userUpdateError) throw userUpdateError;
+
+    // 2. Update Registrations Table
     const { error: updateError } = await sbClient.from('registrations').upsert({
       id: user.id,
       name,

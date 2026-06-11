@@ -71,7 +71,15 @@ async function doRegister() {
     const {data, error} = await sbClient.auth.signUp({
       email,
       password,
-      options: { data: { full_name: name } }
+      options: { 
+        data: { 
+          full_name: name,
+          username: username,
+          age: parseInt(age),
+          phone_number: phone,
+          career_domain: domain
+        } 
+      }
     });
     if(error) throw error;
     
@@ -181,6 +189,18 @@ async function doCompleteProfile() {
     const { data: { user }, error: userError } = await sbClient.auth.getUser();
     if (userError || !user) throw new Error('No user is currently logged in.');
 
+    // 1. Update Auth User Metadata
+    const { error: userUpdateError } = await sbClient.auth.updateUser({
+      data: {
+        full_name: name,
+        age: parseInt(age),
+        phone_number: phone,
+        career_domain: domain
+      }
+    });
+    if (userUpdateError) throw userUpdateError;
+
+    // 2. Update Registrations Table
     const { error: updateError } = await sbClient.from('registrations').upsert({
       id: user.id,
       name,
