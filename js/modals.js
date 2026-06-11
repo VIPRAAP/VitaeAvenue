@@ -37,19 +37,38 @@ async function doRegister() {
   const username = document.getElementById('reg-username').value.trim();
   const name = document.getElementById('reg-name').value.trim();
   const age = document.getElementById('reg-age').value.trim();
-  const phone = document.getElementById('reg-phone').value.trim();
+  const phoneCode = document.getElementById('reg-phone-code').value;
+  const phoneNumber = document.getElementById('reg-phone').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const password = document.getElementById('reg-password').value;
   const domain = document.getElementById('reg-domain').value;
   const msgEl = document.getElementById('reg-msg');
   const btn = document.getElementById('regBtn');
 
-  if(!username || !name || !age || !phone || !email || !password || !domain) {
+  if(!username || !name || !age || !phoneNumber || !email || !password || !domain) {
     msgEl.className='form-msg error';msgEl.textContent='Please fill in all required fields.';return;
   }
+  
+  // Email validation (must contain @ and a domain extension like .com)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/;
+  if (!emailRegex.test(email) || !email.includes('@') || !email.includes('.')) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Please enter a valid email address (e.g. name@domain.com).';
+    return;
+  }
+
+  // Phone validation (exactly 10 digits)
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Phone number must be exactly 10 digits.';
+    return;
+  }
+
   if(password.length < 6) {
     msgEl.className='form-msg error';msgEl.textContent='Password must be at least 6 characters.';return;
   }
+
+  const phone = phoneCode + ' ' + phoneNumber;
 
   btn.disabled=true;btn.textContent='Creating account...';
   msgEl.className='form-msg';msgEl.textContent='';
@@ -169,16 +188,26 @@ async function loginWithGoogle() {
 async function doCompleteProfile() {
   const name = document.getElementById('complete-name').value.trim();
   const age = document.getElementById('complete-age').value.trim();
-  const phone = document.getElementById('complete-phone').value.trim();
+  const phoneCode = document.getElementById('complete-phone-code').value;
+  const phoneNumber = document.getElementById('complete-phone').value.trim();
   const domain = document.getElementById('complete-domain').value;
   const msgEl = document.getElementById('complete-msg');
   const btn = document.getElementById('completeBtn');
 
-  if (!name || !age || !phone || !domain) {
+  if (!name || !age || !phoneNumber || !domain) {
     msgEl.className='form-msg error';
     msgEl.textContent='Please fill in all required fields.';
     return;
   }
+
+  // Phone validation (exactly 10 digits)
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Phone number must be exactly 10 digits.';
+    return;
+  }
+
+  const phone = phoneCode + ' ' + phoneNumber;
 
   btn.disabled = true;
   btn.textContent = 'Saving...';

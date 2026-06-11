@@ -1749,7 +1749,20 @@ footer{
             <div class="form-row">
               <div class="form-group">
                 <label>Phone *</label>
-                <input type="tel" id="cf-phone" placeholder="+91 XXXXX XXXXX" required>
+                <div class="phone-input-container" style="display: flex; gap: 8px;">
+                  <select id="cf-phone-code" style="width: 100px; flex-shrink: 0; border: 1.5px solid var(--grey); border-radius: 10px; padding: 12px 6px; background: var(--cream); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;">
+                    <option value="+91">🇮🇳 +91</option>
+                    <option value="+61">🇦🇺 +61</option>
+                    <option value="+1">🇨🇦 +1</option>
+                    <option value="+33">🇫🇷 +33</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+65">🇸🇬 +65</option>
+                    <option value="+971">🇦🇪 +971</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+1">🇺🇸 +1</option>
+                  </select>
+                  <input type="tel" id="cf-phone" placeholder="10-digit number" required style="flex-grow: 1;">
+                </div>
               </div>
               <div class="form-group">
                 <label>Email *</label>
@@ -1884,7 +1897,20 @@ footer{
         </div>
         <div class="form-group">
           <label>Phone Number *</label>
-          <input type="tel" id="reg-phone" placeholder="Phone number">
+          <div class="phone-input-container" style="display: flex; gap: 8px;">
+            <select id="reg-phone-code" style="width: 100px; flex-shrink: 0; border: 1.5px solid var(--grey); border-radius: 10px; padding: 12px 6px; background: var(--cream); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;">
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+1">🇨🇦 +1</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+1">🇺🇸 +1</option>
+            </select>
+            <input type="tel" id="reg-phone" placeholder="10-digit number" style="flex-grow: 1;">
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -1940,7 +1966,20 @@ footer{
         </div>
         <div class="form-group">
           <label>Phone Number *</label>
-          <input type="tel" id="complete-phone" placeholder="Phone number">
+          <div class="phone-input-container" style="display: flex; gap: 8px;">
+            <select id="complete-phone-code" style="width: 100px; flex-shrink: 0; border: 1.5px solid var(--grey); border-radius: 10px; padding: 12px 6px; background: var(--cream); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;">
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+1">🇨🇦 +1</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+1">🇺🇸 +1</option>
+            </select>
+            <input type="tel" id="complete-phone" placeholder="10-digit number" style="flex-grow: 1;">
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -1982,8 +2021,21 @@ sbClient.auth.onAuthStateChange(async (event, session) => {
         
         const nameVal = registration?.name || session.user.user_metadata?.full_name || '';
         const ageVal = registration?.age || session.user.user_metadata?.age || '';
-        const phoneVal = registration?.phone_number || session.user.user_metadata?.phone_number || '';
+        const rawPhone = registration?.phone_number || session.user.user_metadata?.phone_number || '';
         const domainVal = registration?.career_domain || session.user.user_metadata?.career_domain || '';
+
+        let phoneCodeVal = '+91';
+        let phoneNumVal = '';
+        if (rawPhone.includes(' ')) {
+          const parts = rawPhone.split(' ');
+          phoneCodeVal = parts[0];
+          phoneNumVal = parts.slice(1).join(' ');
+        } else if (rawPhone.startsWith('+')) {
+          phoneCodeVal = rawPhone.substring(0, 3);
+          phoneNumVal = rawPhone.substring(3);
+        } else {
+          phoneNumVal = rawPhone;
+        }
 
         if (document.getElementById('complete-name')) {
           document.getElementById('complete-name').value = nameVal;
@@ -1991,8 +2043,11 @@ sbClient.auth.onAuthStateChange(async (event, session) => {
         if (document.getElementById('complete-age')) {
           document.getElementById('complete-age').value = ageVal;
         }
+        if (document.getElementById('complete-phone-code')) {
+          document.getElementById('complete-phone-code').value = phoneCodeVal;
+        }
         if (document.getElementById('complete-phone')) {
-          document.getElementById('complete-phone').value = phoneVal;
+          document.getElementById('complete-phone').value = phoneNumVal;
         }
         if (document.getElementById('complete-domain')) {
           document.getElementById('complete-domain').value = domainVal;
@@ -2086,19 +2141,38 @@ async function doRegister() {
   const username = document.getElementById('reg-username').value.trim();
   const name = document.getElementById('reg-name').value.trim();
   const age = document.getElementById('reg-age').value.trim();
-  const phone = document.getElementById('reg-phone').value.trim();
+  const phoneCode = document.getElementById('reg-phone-code').value;
+  const phoneNumber = document.getElementById('reg-phone').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const password = document.getElementById('reg-password').value;
   const domain = document.getElementById('reg-domain').value;
   const msgEl = document.getElementById('reg-msg');
   const btn = document.getElementById('regBtn');
 
-  if(!username || !name || !age || !phone || !email || !password || !domain) {
+  if(!username || !name || !age || !phoneNumber || !email || !password || !domain) {
     msgEl.className='form-msg error';msgEl.textContent='Please fill in all required fields.';return;
   }
+  
+  // Email validation (must contain @ and a domain extension like .com)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/;
+  if (!emailRegex.test(email) || !email.includes('@') || !email.includes('.')) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Please enter a valid email address (e.g. name@domain.com).';
+    return;
+  }
+
+  // Phone validation (exactly 10 digits)
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Phone number must be exactly 10 digits.';
+    return;
+  }
+
   if(password.length < 6) {
     msgEl.className='form-msg error';msgEl.textContent='Password must be at least 6 characters.';return;
   }
+
+  const phone = phoneCode + ' ' + phoneNumber;
 
   btn.disabled=true;btn.textContent='Creating account...';
   msgEl.className='form-msg';msgEl.textContent='';
@@ -2218,16 +2292,26 @@ async function loginWithGoogle() {
 async function doCompleteProfile() {
   const name = document.getElementById('complete-name').value.trim();
   const age = document.getElementById('complete-age').value.trim();
-  const phone = document.getElementById('complete-phone').value.trim();
+  const phoneCode = document.getElementById('complete-phone-code').value;
+  const phoneNumber = document.getElementById('complete-phone').value.trim();
   const domain = document.getElementById('complete-domain').value;
   const msgEl = document.getElementById('complete-msg');
   const btn = document.getElementById('completeBtn');
 
-  if (!name || !age || !phone || !domain) {
+  if (!name || !age || !phoneNumber || !domain) {
     msgEl.className='form-msg error';
     msgEl.textContent='Please fill in all required fields.';
     return;
   }
+
+  // Phone validation (exactly 10 digits)
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Phone number must be exactly 10 digits.';
+    return;
+  }
+
+  const phone = phoneCode + ' ' + phoneNumber;
 
   btn.disabled = true;
   btn.textContent = 'Saving...';
@@ -2281,11 +2365,33 @@ async function submitContact(e) {
   const msgEl = document.getElementById('cf-msg-status');
   btn.disabled=true;btn.textContent='Sending...';
 
-  const name = document.getElementById('cf-name').value;
-  const phone = document.getElementById('cf-phone').value;
-  const email = document.getElementById('cf-email').value;
+  const name = document.getElementById('cf-name').value.trim();
+  const phoneCode = document.getElementById('cf-phone-code').value;
+  const phoneNumber = document.getElementById('cf-phone').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
   const req = document.getElementById('cf-req').value;
-  const msg = document.getElementById('cf-msg').value;
+  const msg = document.getElementById('cf-msg').value.trim();
+
+  // Email validation (must contain @ and a domain extension like .com)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/;
+  if (!emailRegex.test(email) || !email.includes('@') || !email.includes('.')) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Please enter a valid email address (e.g. name@domain.com).';
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+    return;
+  }
+
+  // Phone validation (exactly 10 digits)
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Phone number must be exactly 10 digits.';
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+    return;
+  }
+
+  const phone = phoneCode + ' ' + phoneNumber;
 
   try {
     // Store in Supabase
@@ -2327,7 +2433,152 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').style.boxShadow = window.scrollY > 10 ? '0 2px 24px rgba(0,0,0,0.1)' : 'none';
 });
+
+// ===== FLOATING CONTACT PROMPT =====
+let quickPromptShown = false;
+window.addEventListener('scroll', () => {
+  if (quickPromptShown) return;
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPct = (window.scrollY / (totalHeight || 1)) * 100;
+  if (scrollPct > 30) {
+    showQuickPrompt();
+  }
+});
+
+setTimeout(() => {
+  if (!quickPromptShown) {
+    showQuickPrompt();
+  }
+}, 8000);
+
+function showQuickPrompt() {
+  if (quickPromptShown) return;
+  const prompt = document.getElementById('quick-message-prompt');
+  if (prompt) {
+    prompt.classList.add('show');
+    quickPromptShown = true;
+  }
+}
+
+function closeQuickPrompt(e) {
+  if (e) e.stopPropagation();
+  const prompt = document.getElementById('quick-message-prompt');
+  if (prompt) {
+    prompt.classList.remove('show');
+  }
+}
+
+function triggerQuickPromptRedirect() {
+  closeQuickPrompt();
+  showPage('contact');
+  setTimeout(() => {
+    const nameInput = document.getElementById('cf-name');
+    if (nameInput) {
+      nameInput.focus();
+      nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const formBox = nameInput.closest('div');
+      if (formBox) {
+        formBox.style.transition = 'box-shadow 0.5s';
+        formBox.style.boxShadow = '0 0 20px rgba(245, 166, 35, 0.6)';
+        setTimeout(() => {
+          formBox.style.boxShadow = '';
+        }, 1500);
+      }
+    }
+  }, 300);
+}
 </script>
+
+<!-- FLOATING CONTACT PROMPT POPUP -->
+<div id="quick-message-prompt" class="quick-prompt-card">
+  <button class="quick-prompt-close" onclick="closeQuickPrompt(event)">✕</button>
+  <div class="quick-prompt-body">
+    <div class="quick-prompt-icon">💬</div>
+    <div class="quick-prompt-text">
+      <h4>Have a quick query?</h4>
+      <p>Send a message directly to our career expert!</p>
+    </div>
+  </div>
+  <button class="quick-prompt-btn" onclick="triggerQuickPromptRedirect()">Send Quick Message</button>
+</div>
+
+<style>
+.quick-prompt-card {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--white);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  padding: 20px;
+  max-width: 320px;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(120%);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.quick-prompt-card.show {
+  transform: translateY(0);
+}
+.quick-prompt-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-light);
+}
+.quick-prompt-close:hover {
+  color: var(--text-dark);
+}
+.quick-prompt-body {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.quick-prompt-icon {
+  font-size: 28px;
+}
+.quick-prompt-text h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--deep-navy);
+}
+.quick-prompt-text p {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.4;
+}
+.quick-prompt-btn {
+  background: var(--gold);
+  color: var(--deep-navy);
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 13px;
+  text-align: center;
+}
+.quick-prompt-btn:hover {
+  background: #e8960f;
+}
+@media (max-width: 768px) {
+  .quick-prompt-card {
+    bottom: 80px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
+}
+</style>
+
 <script src="js/chatbot.js" defer></script>
 </body>
 </html>
