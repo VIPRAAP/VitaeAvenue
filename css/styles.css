@@ -34,14 +34,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
 }
 .nav-logo{
   display:flex;align-items:center;justify-content:center;
-  background:var(--white);
-  padding:6px 24px;
+  background:transparent;
+  padding:6px 16px;
   min-height:72px;
   flex-shrink:0;
   text-decoration:none;
-  border-right:2px solid rgba(0,0,0,0.08);
 }
-.nav-logo img{height:56px;width:auto;object-fit:contain;display:block;image-rendering:crisp-edges}
+.nav-logo img{
+  height:56px;
+  width:56px;
+  object-fit:cover;
+  border-radius:10px;
+  display:block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 .nav-links{display:flex;align-items:center;gap:0;list-style:none}
 .nav-links > li{position:relative}
 .nav-links > li > a{
@@ -479,7 +485,7 @@ section{padding:72px 24px}
 }
 .modal-close:hover{background:var(--grey)}
 .modal-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
-.modal-logo img{height:40px}
+.modal-logo img{height:54px;width:54px;object-fit:cover;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--deep-navy);margin-bottom:6px}
 .modal-sub{font-size:13px;color:var(--text-light);margin-bottom:28px}
 .form-group{margin-bottom:18px}
