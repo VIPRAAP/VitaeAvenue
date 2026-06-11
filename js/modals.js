@@ -281,10 +281,56 @@ async function submitContact(e) {
     document.getElementById('contactForm').reset();
     btn.textContent='Message Sent ✓';
   } catch(err) {
-    console.error('Contact Form Error:', err);
     msgEl.className='form-msg error';
     msgEl.textContent='❌ Failed to send message. Please check your connection and try again.';
     btn.disabled=false;
     btn.textContent='Send Message';
   }
 }
+
+// Listen for authentication state change (handles Google redirect and regular logins)
+sbClient.auth.onAuthStateChange(async (event, session) => {
+  if (session && session.user) {
+    try {
+      const { data: registration, error } = await sbClient.from('registrations')
+        .select('*')
+        .eq('id', session.user.id)
+        .maybeSingle();
+
+      if (!registration || !registration.age || !registration.phone_number || !registration.career_domain) {
+        openModal('complete-profile');
+        
+        const nameVal = registration?.name || session.user.user_metadata?.full_name || '';
+        const ageVal = registration?.age || session.user.user_metadata?.age || '';
+        const rawPhone = registration?.phone_number || session.user.user_metadata?.phone_number || '';
+        const domainVal = registration?.career_domain || session.user.user_metadata?.career_domain || '';
+
+        let phoneNumVal = '';
+        if (rawPhone) {
+          const cleaned = rawPhone.replace(/\D/g, '');
+          if (cleaned.length >= 10) {
+            phoneNumVal = cleaned.substring(cleaned.length - 10);
+          } else {
+            phoneNumVal = cleaned;
+          }
+        }
+
+        if (document.getElementById('complete-name')) {
+          document.getElementById('complete-name').value = nameVal;
+        }
+        if (document.getElementById('complete-age')) {
+          document.getElementById('complete-age').value = ageVal;
+        }
+        if (document.getElementById('complete-phone')) {
+          document.getElementById('complete-phone').value = phoneNumVal;
+        }
+        if (document.getElementById('complete-domain')) {
+          document.getElementById('complete-domain').value = domainVal;
+        }
+      }
+    } catch (err) {
+      console.error('Error checking profile completion:', err);
+    }
+  }
+});
+
